@@ -10,45 +10,45 @@ public class DCTargeting {
 	public double minBulletPower = .1, maxBulletPower = 3;
 	boolean referenceMode = false;
 	protected long lastAimTime = 0;
-	
-	public long bulletsFired = 0, bulletsHit = 0;
-	
+
+	public long firedCount = 0, hitCount = 0;
+
 	private int maxSize = 30000;//max log size
-	
+
 	private int centerHitDist = 0;
 	private double toleranceWidth = 20;// hit tolerance
-	
+
 	public ScanInfo first, last;//doubly linked list of scans
 	public int size = 0;
-	
+
 	private double lastDir = 1;
 	private long lastRunStart = 0;
 	private double lastRunTime = 0;
 	private double lastVel;
-	
+
 	long startTime = 0;
 	double bulletPower = 3;
 	private long lastTime = 0;
 	private double battleFieldWidth, battleFieldHeight;
-	
+
 	private double tolerance = 0;
 	private double nextX = 0, nextY = 0, headOnAngle;
-	
+
 	public DCTargeting(AdvancedRobot b, double w, double h) {
 		bot = b;
 		battleFieldWidth = w;
 		battleFieldHeight = h;
 	}
-	
+
 	public void initRound() {
 		enemyLocation = null;
 		aiming = false;
 	}
-	
+
 	public void bulletFired(Bullet b) {
-		bulletsFired++;
+		firedCount++;
 	}
-	
+
 	public void cleanUpRound() {
 		enemyLocation = null;
 		if (size == 0) return;
@@ -57,11 +57,8 @@ public class DCTargeting {
 			size--;
 		}
 		first.previous = null;
-
-		bot.out.println("Bullets fired/hit: " + bulletsFired + "/" + bulletsHit
-				+ " (" + Math.round(bulletsHit * 1000D / bulletsFired)/10D + "%)");
 	}
-	
+
 	public double calcBulletPower() {
 		double bulletPower = 0;
 		if (enemyLocation == null) return(0);
@@ -73,50 +70,46 @@ public class DCTargeting {
 		if (referenceMode) bulletPower = Math.min(bot.getEnergy(), 3);
 		return(bulletPower);
 	}
-	
+
 	private void execute() {
 		Bullet b = null;
-		if (enemyLocation == null) {
-			bot.setTurnGunRight(bot.getRadarTurnRemaining());
-			if (bot.getOthers() == 0) bot.setFire(.1);
+
+		// compute my position in the next tick
+		double nextTurn;
+		if (bot.getTurnRemaining() >= 0) nextTurn = Math.min(bot.getTurnRemaining(), 10 - .75 * Math.abs(bot.getVelocity()));
+		else nextTurn = Math.max(bot.getTurnRemaining(), -10 + .75 * Math.abs(bot.getVelocity()));
+		nextX = bot.getX() + bot.getVelocity() * Helpers.sinD(nextTurn);
+		nextY = bot.getY() + bot.getVelocity() * Helpers.cosD(nextTurn);
+		headOnAngle = Helpers.angleTo(nextX, nextY, enemyLocation.getX(), enemyLocation.getY());
+		//
+		bulletPower = calcBulletPower();
+		if (bot.getGunHeat() > bot.getGunCoolingRate() || bot.getEnergy() < bulletPower || bulletPower == 0) {
+			aiming = false;
+			bot.setTurnGunRight(Helpers.normalizeBearing(headOnAngle - bot.getGunHeading()));
 		}
 		else {
-			// compute my position in the next tick
-			double nextTurn;
-			if (bot.getTurnRemaining() >= 0) nextTurn = Math.min(bot.getTurnRemaining(), 10 - .75 * Math.abs(bot.getVelocity()));
-			else nextTurn = Math.max(bot.getTurnRemaining(), -10 + .75 * Math.abs(bot.getVelocity()));
-			nextX = bot.getX() + bot.getVelocity() * Helpers.sinD(nextTurn);
-			nextY = bot.getY() + bot.getVelocity() * Helpers.cosD(nextTurn);
-			headOnAngle = Helpers.angleTo(nextX, nextY, enemyLocation.getX(), enemyLocation.getY());
-			//
-			bulletPower = calcBulletPower();
-			if (bot.getGunHeat() > bot.getGunCoolingRate() || bot.getEnergy() < bulletPower || bulletPower == 0) {
+			if (aiming && bot.getGunTurnRemaining() == 0 && bot.getGunHeat() == 0) {
+				b = bot.setFireBullet(bulletPower);
 				aiming = false;
-				bot.setTurnGunRight(Helpers.normalizeBearing(headOnAngle - bot.getGunHeading()));
 			}
-			else {
-				if (aiming && bot.getGunTurnRemaining() == 0 && bot.getGunHeat() == 0) {
-					b = bot.setFireBullet(bulletPower);
-					aiming = false;
+			else if (!aiming) {
+				lastAimTime = bot.getTime();
+				double fireAngle = findBestAngle();
+				if (fireAngle != 10000) {
+					bot.setTurnGunRight(Helpers.normalizeBearing(fireAngle - bot.getGunHeading()));
+					aiming = true;
 				}
-				else if (!aiming) {
-					lastAimTime = bot.getTime();
-					double fireAngle = findBestAngle();
-					if (fireAngle != 10000) {
-						bot.setTurnGunRight(Helpers.normalizeBearing(fireAngle - bot.getGunHeading()));
-						aiming = true;
-					}
-					else {// gun says: don't fire!
-						bot.setTurnGunRight(Helpers.normalizeBearing(headOnAngle - bot.getGunHeading()));
-					}
+				else {// gun says: don't fire!
+					bot.setTurnGunRight(Helpers.normalizeBearing(headOnAngle - bot.getGunHeading()));
 				}
 			}
 		}
+
 		if (b != null) {
 			bulletFired(b);
 		}
 	}
-	
+
 	public void updateScannedRobot(ScannedRobotEvent e) {
 		if (referenceMode && bot.getEnergy() <= .1) return;
 		long t1 = bot.getTime() - startTime;
@@ -134,7 +127,7 @@ public class DCTargeting {
 		enemyLocation = new Point2D.Double(x, y);
 		enemyEnergy = e.getEnergy();
 		enemyDistance = dist;
-		
+
 		lastDir = velocity != 0 ? velocity : lastDir;
 		if (velocity != lastVel) {
 			lastRunTime = Math.min(40.0, (double)t1 - lastRunStart) / 40;
@@ -150,7 +143,7 @@ public class DCTargeting {
 		else if (Math.abs(lastVel) < Math.abs(velocity)) currInfo.acc = -1;
 		lastVel = velocity;
 		currInfo.atm = Math.abs(Helpers.normalizeBearing(heading - bot.getHeading() - e.getBearing())) / 180;
-		
+
 		// wallDanger
 		double maxWDist = 400;
 		double distV = 0, distH = 0;
@@ -161,7 +154,7 @@ public class DCTargeting {
 		else if (heading < 180) distH = (battleFieldWidth - x) / Helpers.cosD(heading - 90);
 		else distH = x / Helpers.cosD(heading - 180 - 90);
 		currInfo.dtwf = 1 - (Math.min(Math.min(distV, distH), maxWDist) / maxWDist);
-		
+
 		double h1 = (heading + 180) % 360;
 		if (h1 < 0) h1 += 360;
 		if (h1 == 90 || h1 == 270) distV = Double.POSITIVE_INFINITY;
@@ -172,7 +165,7 @@ public class DCTargeting {
 		else distH = x / Helpers.cosD(h1 - 180 - 90);
 		currInfo.dtwb = 1 - (Math.min(Math.min(distV, distH), maxWDist) / maxWDist);
 		// --
-		
+
 		if (size == 0) {
 			first = currInfo;
 			last = currInfo;
@@ -184,24 +177,24 @@ public class DCTargeting {
 		}
 		size++;
 		lastTime = t1;
-		
+
 		execute();
 	}
-		
+
 	public double findBestAngle() {
 		// The Guns main method: 
 		// 1.Finds the topCount scans closest form the current (last) one
 		// 2.Computes the corresponding firing angles
 		// 3.Chooses the one that hits in most of the cases
-		
+
 		int topCount = 50, angMax = 50;//nr of closest matches 
-		
-		boolean firedOnlyStats = (bot.getRoundNum() > 0 && (double)bulletsHit / bulletsFired > .12);
+
+		boolean firedOnlyStats = (bot.getRoundNum() > 0 && (double)hitCount / firedCount > .12);
 		if (firedOnlyStats) {//anti-Cigaret
 			topCount = 250;
 			angMax = 250;
 		}
-		
+
 		ScanInfo info = last;
 		info.fired = true;
 		ScanInfo currentInfo = info;
@@ -210,17 +203,17 @@ public class DCTargeting {
 		ScanInfo[] topInfo = new ScanInfo[topCount];
 		double topDiff[] = new double[topCount];
 		double bestAngle = 0;
-		
+
 		if (last == null) return(headOnAngle);
 
 		long t1 = info.t;
 		long time = (long)(Helpers.distanceTo(bot, last.x, last.y) / (20 - 3 * bulletPower) * 1.1);
-		
+
 		for (int i = 0; i < topCount; i++) {
 			topDiff[i] = Double.POSITIVE_INFINITY;
 			topInfo[i] = currentInfo;
 		}
-		
+
 		long iCount = 0;
 		while (info.previous != null) {
 			if (newRound) {
@@ -231,7 +224,7 @@ public class DCTargeting {
 			}
 			else {
 				currentDistance = 0;
-				
+
 				currentDistance += sqr((currentInfo.dtm - info.dtm)) * 4;
 				currentDistance += sqr((currentInfo.atm -  info.atm));
 				currentDistance += sqr((currentInfo.v - info.v)) * 2;
@@ -254,16 +247,16 @@ public class DCTargeting {
 					topDiff[i] = currentDistance;
 					topInfo[i] = info;
 				}
-				
+
 				info = info.previous;
 				iCount++;
 				if (info.t > t1) newRound = true;
 			}
 		}
-		
+
 		double dists[] = new double[topCount];
 		for (int i = 0; i < topCount; i++) dists[i] = topDiff[i];
-		
+
 		double[][] angles = new double[topCount][4];
 		for (int i = 0; i < topCount; i++) angles[i][0] = 1000;
 		int angCount = 0;
@@ -293,17 +286,17 @@ public class DCTargeting {
 		double maxCount = 0; int maxIDX = 0;
 		for (int j = 0; j < angCount; j++) {
 			if (angles[j][2] > maxCount) {
-					maxCount = angles[j][2];
-					maxIDX = j;
+				maxCount = angles[j][2];
+				maxIDX = j;
 			}
 		}
-		
+
 		bestAngle = angles[maxIDX][0];
 		if (bestAngle >= 1000) bestAngle = 0;
 
 		return (headOnAngle + bestAngle);
 	}
-		
+
 	public double getGunAngle(ScanInfo predictedInfo) {
 		// traces the enemys path to get a firing angle
 		tolerance = 0;
@@ -328,11 +321,11 @@ public class DCTargeting {
 			if (endInfo.next == null || endInfo.t < predictedInfo.t) return (Double.POSITIVE_INFINITY);
 		}
 		if (predx < 0 || predx > battleFieldWidth
-			|| predy < 0 || predy > battleFieldHeight) return (Double.POSITIVE_INFINITY);
+				|| predy < 0 || predy > battleFieldHeight) return (Double.POSITIVE_INFINITY);
 		tolerance = Math.toDegrees(/*Math.atan*/(toleranceWidth / predDist));
 		return (Math.toDegrees(Math.PI/2 - Math.atan2(predy - nextY, predx - nextX)));
 	}
-	
+
 	public class ScanInfo {
 		public double x = 0, y = 0, d = 0;
 		public long t = 0;
@@ -348,7 +341,7 @@ public class DCTargeting {
 		public boolean fired = false;
 		public ScanInfo previous;
 		public ScanInfo next;
-	
+
 		public ScanInfo (double x1, double y1, double d1, double v1, long t1) {
 			x = x1;
 			y = y1;
@@ -357,7 +350,7 @@ public class DCTargeting {
 			t = t1;
 		}
 	}
-	
+
 	private static final double sqr(double x) {
 		return(x * x);
 	}

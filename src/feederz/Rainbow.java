@@ -53,15 +53,6 @@ public class Rainbow extends AdvancedRobot {
 				- getRadarHeadingRadians()) * 2);
 	}
 
-	public void setFireAndTrackBullet(double power, double time) {
-		if (getGunHeat() == 0 && Math.abs(getGunTurnRemaining()) < 10) {
-			Bullet bullet = setFireBullet(power);
-			@SuppressWarnings("unused")
-			BulletTracker bt = new BulletTracker(this, bullet,
-					robotData.enemyName, time, 1);
-		}
-	}
-
 	public void onScannedRobot(ScannedRobotEvent e) {
 		robotData.updateData(e);
 		controllRadar();
@@ -75,37 +66,11 @@ public class Rainbow extends AdvancedRobot {
 	}
 	
 	public void onBulletHit(BulletHitEvent e) {
-		gunController.bulletsHit++;
+		gunController.hitCount++;
 	}
 
-	public void onCustomEvent(CustomEvent e) {
-		Condition condition = e.getCondition();
-		if (condition instanceof BulletTracker) {
-
-			BulletTracker bt = (BulletTracker) condition;
-			System.out.print(bt.getAimMethod() + "  ");
-			if (bt.hitTarget()) {
-				System.out.println("hit");
-			} else {
-				System.out.println("miss");
-			}
-		}
-	}
-
-	public void onHitWall(HitWallEvent e) {
-
-	}
-	
-	public void onDeath(DeathEvent event) {
-		if (getOthers() > 0) {
-			gunController.cleanUpRound();
-		}
-	}
-	
-	public void onRobotDeath(RobotDeathEvent e) {
-		if (getOthers() == 0) {
-			gunController.cleanUpRound();
-		}
+	public void onRoundEnded(RoundEndedEvent event) {
+		gunController.cleanUpRound();
 	}
 
 //	private double distanceTo(Point2D.Double from, Point2D.Double to) {
