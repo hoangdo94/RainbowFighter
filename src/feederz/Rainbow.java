@@ -8,15 +8,14 @@ import java.awt.Color;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
-import java.util.LinkedList;
 
 import robocode.*;
 import robocode.util.Utils;
 
 public class Rainbow extends AdvancedRobot {
 	RobotData robotData = new RobotData(this);
-	ArrayList<RobotData> dataSeries = new ArrayList<RobotData>();
-	Targeting gunController = new Targeting(this, dataSeries);
+	DCTargeting gunController = new DCTargeting(this, 800, 600);
+	
 	Color colors[] = { new Color(255, 0, 0), new Color(255, 127, 0),
 			new Color(255, 255, 0), new Color(0, 255, 0), new Color(0, 0, 255),
 			new Color(75, 0, 130), new Color(143, 0, 255) };
@@ -26,34 +25,32 @@ public class Rainbow extends AdvancedRobot {
 	public void initializeRobot() {
 		setAdjustRadarForGunTurn(true);
 		setAdjustRadarForRobotTurn(true);
+		gunController.initRound();
 		setMaxVelocity(8);
 	}
 
-	public void changeAllFuckingColors() {
+	public void changeAllColors() {
 		Color c = colors[colorNum];
 		setColors(c, c, c, Color.white, c);
 		colorNum++;
 		if (colorNum > 6)
 			colorNum = 0;
 	}
+	
+	public void run() {
+		testRun();
+		initializeRobot();
+		changeAllColors();
+		
+		do {
+			turnRadarRight(Double.POSITIVE_INFINITY);
+		} while (true);
+	}
 
 	public void controllRadar() {
 		double absBearing = robotData.bearingRadians + getHeadingRadians();
 		setTurnRadarRightRadians(Utils.normalRelativeAngle(absBearing
 				- getRadarHeadingRadians()) * 2);
-	}
-
-	void controlRobot() {
-
-	}
-
-	public void run() {
-		testRun();
-		initializeRobot();
-		changeAllFuckingColors();
-		do {
-			turnRadarRight(Double.POSITIVE_INFINITY);
-		} while (true);
 	}
 
 	public void setFireAndTrackBullet(double power, double time) {
@@ -65,24 +62,20 @@ public class Rainbow extends AdvancedRobot {
 		}
 	}
 
-	public void aimNfire() {
-		double power = gunController.calculateBulletPower();
-		double time = gunController.aimAndReturnEstimateTime(power);
-		setFireAndTrackBullet(power, time);
-	}
-
 	public void onScannedRobot(ScannedRobotEvent e) {
 		robotData.updateData(e);
-		dataSeries.add(robotData);
 		controllRadar();
-		aimNfire();
-
+		gunController.updateScannedRobot(e);
 		testOnScannedRobot(e);
 	}
 
 	public void onHitByBullet(HitByBulletEvent e) {
-		changeAllFuckingColors();
+		changeAllColors();
 		testOnHitBullet(e);
+	}
+	
+	public void onBulletHit(BulletHitEvent e) {
+		gunController.bulletsHit++;
 	}
 
 	public void onCustomEvent(CustomEvent e) {
@@ -101,6 +94,18 @@ public class Rainbow extends AdvancedRobot {
 
 	public void onHitWall(HitWallEvent e) {
 
+	}
+	
+	public void onDeath(DeathEvent event) {
+		if (getOthers() > 0) {
+			gunController.cleanUpRound();
+		}
+	}
+	
+	public void onRobotDeath(RobotDeathEvent e) {
+		if (getOthers() == 0) {
+			gunController.cleanUpRound();
+		}
 	}
 
 //	private double distanceTo(Point2D.Double from, Point2D.Double to) {
