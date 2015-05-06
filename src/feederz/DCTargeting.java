@@ -97,7 +97,6 @@ public class DCTargeting {
 	}
 
 	public void updateData() {
-		//set W/H
 		//sap het energy thi ko ban nua (0)
 		if (bot.getEnergy() <= .1) return;
 		double velocity = enemyData.velocity;
@@ -127,7 +126,6 @@ public class DCTargeting {
 		lastVelocity = velocity;
 		currInfo.atm = Math.abs(Helpers.normalizeBearing(heading - Math.toDegrees(enemyData.headingRadians + enemyData.bearingRadians))) / 180;
 
-		// wallDanger
 		double maxWDist = 400;
 		double distV = 0, distH = 0;
 		if (heading == 90 || heading == 270) distV = Double.POSITIVE_INFINITY;
@@ -260,7 +258,6 @@ public class DCTargeting {
 	}
 
 	public double getGunAngle(ScanInfo predictedInfo) {
-		// traces the enemys path to get a firing angle
 		tolerance = 0;
 		ScanInfo currInfo = last;
 		ScanInfo endInfo = predictedInfo;
