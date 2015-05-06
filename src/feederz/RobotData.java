@@ -1,5 +1,6 @@
 package feederz;
 
+import java.awt.Point;
 import java.awt.geom.Point2D;
 
 import robocode.AdvancedRobot;
@@ -46,9 +47,14 @@ public class RobotData {
 	public Point2D.Double getPositionFromScannedRobotEvent(
 			ScannedRobotEvent event) {
 		double angle = ourRobot.getHeadingRadians() + event.getBearingRadians();
-		double x = ourRobot.getX() + Math.sin(angle) * distance;
-		double y = ourRobot.getY() + Math.cos(angle) * distance;
-		return new Point2D.Double(x, y);
+		Point2D.Double from = new Point2D.Double(this.ourRobot.getX(), this.ourRobot.getY());
+		return getPositionFromAngleAndDistance(from, angle, this.distance);
+	}
+	
+	public static Point2D.Double getPositionFromAngleAndDistance(Point2D.Double from,
+			double angle, double length) {
+		return new Point2D.Double(from.x + Math.sin(angle) * length,
+				from.y + Math.cos(angle) * length);
 	}
 
 	public void updateData(ScannedRobotEvent event) {
@@ -59,7 +65,7 @@ public class RobotData {
 		}
 		this.deltaEnergy = this.energy - event.getEnergy();
 		this.bearingRadians = event.getBearingRadians();
-		this.distance = event.getDistance();
+		this.distance = event.getDistance(); // note: need be placed before updating position statement
 		this.energy = event.getEnergy();
 		this.headingRadians = event.getHeadingRadians();
 		this.velocity = event.getVelocity();
