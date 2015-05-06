@@ -14,18 +14,18 @@ import robocode.util.Utils;
 
 public class Rainbow extends AdvancedRobot {
 	RobotData robotData = new RobotData(this);
-	DCTargeting gunController = new DCTargeting(this, 800, 600);
+	DCTargeting gunController = new DCTargeting(this, robotData);
 	
 	Color colors[] = { new Color(255, 0, 0), new Color(255, 127, 0),
 			new Color(255, 255, 0), new Color(0, 255, 0), new Color(0, 0, 255),
 			new Color(75, 0, 130), new Color(143, 0, 255) };
-	int colorNum = 0;
+	static int colorNum = -1;
 	int aimMode = 2;
 
 	public void initializeRobot() {
 		setAdjustRadarForGunTurn(true);
 		setAdjustRadarForRobotTurn(true);
-		gunController.initRound();
+		gunController.init();
 		setMaxVelocity(8);
 	}
 
@@ -40,7 +40,12 @@ public class Rainbow extends AdvancedRobot {
 	public void run() {
 		testRun();
 		initializeRobot();
-		changeAllColors();
+		if (colorNum == -1) {
+			//Neu la round dau tien
+			colorNum = 0;
+			changeAllColors();
+		}
+		
 		
 		do {
 			turnRadarRight(Double.POSITIVE_INFINITY);
@@ -56,7 +61,8 @@ public class Rainbow extends AdvancedRobot {
 	public void onScannedRobot(ScannedRobotEvent e) {
 		robotData.updateData(e);
 		controllRadar();
-		gunController.updateScannedRobot(e);
+		gunController.updateData();
+		gunController.setTurnAndFire();
 		testOnScannedRobot(e);
 	}
 
@@ -70,7 +76,7 @@ public class Rainbow extends AdvancedRobot {
 	}
 
 	public void onRoundEnded(RoundEndedEvent event) {
-		gunController.cleanUpRound();
+		gunController.cleanUp();
 	}
 
 //	private double distanceTo(Point2D.Double from, Point2D.Double to) {

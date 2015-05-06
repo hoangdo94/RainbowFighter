@@ -4,27 +4,19 @@ import java.awt.geom.*;
 
 public class DCTargeting {
 	private AdvancedRobot bot;
-	Point2D enemyLocation;
-	double enemyEnergy, enemyDistance;
+	RobotData enemyData;
 	boolean aiming;
-	public double minBulletPower = .1, maxBulletPower = 3;
-	boolean referenceMode = false;
 	protected long lastAimTime = 0;
-
 	public long firedCount = 0, hitCount = 0;
-
-	private int maxSize = 30000;//max log size
-
-	private int centerHitDist = 0;
-	private double toleranceWidth = 20;// hit tolerance
-
-	public ScanInfo first, last;//doubly linked list of scans
+	private int maxLogSize = 30000;
+	private double toleranceWidth = 20;
+	public ScanInfo first, last;
 	public int size = 0;
 
 	private double lastDir = 1;
 	private long lastRunStart = 0;
 	private double lastRunTime = 0;
-	private double lastVel;
+	private double lastVelocity;
 
 	long startTime = 0;
 	double bulletPower = 3;
@@ -34,25 +26,22 @@ public class DCTargeting {
 	private double tolerance = 0;
 	private double nextX = 0, nextY = 0, headOnAngle;
 
-	public DCTargeting(AdvancedRobot b, double w, double h) {
+	public DCTargeting(AdvancedRobot b, RobotData ed) {
 		bot = b;
-		battleFieldWidth = w;
-		battleFieldHeight = h;
+		enemyData = ed;
 	}
 
-	public void initRound() {
-		enemyLocation = null;
+	public void init() {
+		enemyData.position = null;
 		aiming = false;
+		battleFieldWidth = bot.getBattleFieldWidth();
+		battleFieldHeight = bot.getBattleFieldHeight();
 	}
 
-	public void bulletFired(Bullet b) {
-		firedCount++;
-	}
-
-	public void cleanUpRound() {
-		enemyLocation = null;
+	public void cleanUp() {
+		enemyData.position = null;
 		if (size == 0) return;
-		while (size > maxSize) {
+		while (size > maxLogSize) {
 			first = first.next;
 			size--;
 		}
@@ -60,28 +49,24 @@ public class DCTargeting {
 	}
 
 	public double calcBulletPower() {
+		if (enemyData.position == null) return 0;
 		double bulletPower = 0;
-		if (enemyLocation == null) return(0);
-		bulletPower = enemyDistance > 150 ? 1.9 : 3;
-		bulletPower = Math.min(bulletPower, (enemyEnergy + .1) / 4);
+		bulletPower = enemyData.distance > 150 ? 1.9 : 3;
+		bulletPower = Math.min(bulletPower, (enemyData.energy + .1) / 4);
 		if (bulletPower * 6 >= bot.getEnergy()) bulletPower = bot.getEnergy() / 6;
 		if (bulletPower >= bot.getEnergy() - .1) bulletPower = bot.getEnergy() - .1;
-		bulletPower = Math.max(minBulletPower, Math.min(maxBulletPower, bulletPower));
-		if (referenceMode) bulletPower = Math.min(bot.getEnergy(), 3);
-		return(bulletPower);
+		bulletPower = Math.max(Rules.MIN_BULLET_POWER, Math.min(Rules.MAX_BULLET_POWER, bulletPower));
+		return bulletPower;
 	}
 
-	private void execute() {
+	public void setTurnAndFire() {
 		Bullet b = null;
-
-		// compute my position in the next tick
 		double nextTurn;
 		if (bot.getTurnRemaining() >= 0) nextTurn = Math.min(bot.getTurnRemaining(), 10 - .75 * Math.abs(bot.getVelocity()));
 		else nextTurn = Math.max(bot.getTurnRemaining(), -10 + .75 * Math.abs(bot.getVelocity()));
 		nextX = bot.getX() + bot.getVelocity() * Helpers.sinD(nextTurn);
 		nextY = bot.getY() + bot.getVelocity() * Helpers.cosD(nextTurn);
-		headOnAngle = Helpers.angleTo(nextX, nextY, enemyLocation.getX(), enemyLocation.getY());
-		//
+		headOnAngle = Helpers.angleTo(nextX, nextY, enemyData.position.getX(), enemyData.position.getY());
 		bulletPower = calcBulletPower();
 		if (bot.getGunHeat() > bot.getGunCoolingRate() || bot.getEnergy() < bulletPower || bulletPower == 0) {
 			aiming = false;
@@ -99,50 +84,48 @@ public class DCTargeting {
 					bot.setTurnGunRight(Helpers.normalizeBearing(fireAngle - bot.getGunHeading()));
 					aiming = true;
 				}
-				else {// gun says: don't fire!
+				else {
 					bot.setTurnGunRight(Helpers.normalizeBearing(headOnAngle - bot.getGunHeading()));
 				}
 			}
 		}
 
 		if (b != null) {
-			bulletFired(b);
+			//robot da ban 1 phat
+			firedCount++;
 		}
 	}
 
-	public void updateScannedRobot(ScannedRobotEvent e) {
-		if (referenceMode && bot.getEnergy() <= .1) return;
+	public void updateData() {
+		//set W/H
+		//sap het energy thi ko ban nua (0)
+		if (bot.getEnergy() <= .1) return;
+		double velocity = enemyData.velocity;
+		double x = enemyData.position.getX();
+		double y = enemyData.position.getY();
+		double heading;
 		long t1 = bot.getTime() - startTime;
-		if (t1 - lastTime > 20 || t1 < lastTime) {//new round or 20+ missed scans
+		if (t1 - lastTime > 20 || t1 < lastTime) {
 			startTime = bot.getTime();
 			lastRunStart = startTime;
 		}
 		t1 = bot.getTime() - startTime;
-		double dist = e.getDistance();
-		double velocity = e.getVelocity();
-		double heading = (bot.getHeading() + e.getBearing()) % 360;
-		if (heading < 0) heading += 360;
-		double x = bot.getX() + dist * Helpers.sinD(heading);
-		double y = bot.getY() + dist * Helpers.cosD(heading);
-		enemyLocation = new Point2D.Double(x, y);
-		enemyEnergy = e.getEnergy();
-		enemyDistance = dist;
 
 		lastDir = velocity != 0 ? velocity : lastDir;
-		if (velocity != lastVel) {
+		if (velocity != lastVelocity) {
 			lastRunTime = Math.min(40.0, (double)t1 - lastRunStart) / 40;
 			lastRunStart = t1;
 		}
-		heading = lastDir < 0 ? (e.getHeading() + 180) % 360 : e.getHeading();
-		ScanInfo currInfo = new ScanInfo(x, y, heading, (Math.abs(velocity) / 8), t1);
-		currInfo.dtm = Math.min(e.getDistance(), 800) / 800;
+		heading = lastDir < 0 ? (enemyData.headingRadians + 180) % 360 : enemyData.headingRadians;
+		ScanInfo currInfo = new ScanInfo(enemyData.position, heading, (Math.abs(velocity) / 8), t1);
+		currInfo.dtm = Math.min(enemyData.distance, 800) / 800;
 		currInfo.runTime = Math.min(40.0, (double)(t1 - lastRunStart)) / 40.0;//40
 		currInfo.lastRunTime = lastRunTime;
 		currInfo.myGunHeat = Math.min(1.5, bot.getGunHeat()) / 1.5;
-		if (Math.abs(lastVel) > Math.abs(velocity)) currInfo.acc = 1;
-		else if (Math.abs(lastVel) < Math.abs(velocity)) currInfo.acc = -1;
-		lastVel = velocity;
-		currInfo.atm = Math.abs(Helpers.normalizeBearing(heading - bot.getHeading() - e.getBearing())) / 180;
+		if (Math.abs(lastVelocity) > Math.abs(velocity)) currInfo.acc = 1;
+		else if (Math.abs(lastVelocity) < Math.abs(velocity)) currInfo.acc = -1;
+		lastVelocity = velocity;
+		currInfo.atm = Math.abs(Helpers.normalizeBearing(heading - Math.toDegrees(enemyData.headingRadians + enemyData.bearingRadians))) / 180;
 
 		// wallDanger
 		double maxWDist = 400;
@@ -177,23 +160,11 @@ public class DCTargeting {
 		}
 		size++;
 		lastTime = t1;
-
-		execute();
 	}
 
 	public double findBestAngle() {
-		// The Guns main method: 
-		// 1.Finds the topCount scans closest form the current (last) one
-		// 2.Computes the corresponding firing angles
-		// 3.Chooses the one that hits in most of the cases
 
-		int topCount = 50, angMax = 50;//nr of closest matches 
-
-		boolean firedOnlyStats = (bot.getRoundNum() > 0 && (double)hitCount / firedCount > .12);
-		if (firedOnlyStats) {//anti-Cigaret
-			topCount = 250;
-			angMax = 250;
-		}
+		int topCount = 50, angMax = 50;
 
 		ScanInfo info = last;
 		info.fired = true;
@@ -207,35 +178,29 @@ public class DCTargeting {
 		if (last == null) return(headOnAngle);
 
 		long t1 = info.t;
-		long time = (long)(Helpers.distanceTo(bot, last.x, last.y) / (20 - 3 * bulletPower) * 1.1);
 
 		for (int i = 0; i < topCount; i++) {
 			topDiff[i] = Double.POSITIVE_INFINITY;
 			topInfo[i] = currentInfo;
 		}
 
-		long iCount = 0;
 		while (info.previous != null) {
 			if (newRound) {
 				t1 = info.t;
-				for (;info.previous != null &&
-						t1 - info.t < time && info.t <= t1; info = info.previous) {iCount++;}
 				if (info.t <= t1) newRound = false;
 			}
 			else {
 				currentDistance = 0;
 
-				currentDistance += sqr((currentInfo.dtm - info.dtm)) * 4;
-				currentDistance += sqr((currentInfo.atm -  info.atm));
-				currentDistance += sqr((currentInfo.v - info.v)) * 2;
-				currentDistance += sqr((currentInfo.dtwf - info.dtwf)) * 4;
-				currentDistance += sqr((currentInfo.dtwb - info.dtwb));
-				currentDistance += sqr((currentInfo.runTime - info.runTime));
-				currentDistance += sqr((currentInfo.lastRunTime - info.lastRunTime));
-				currentDistance += sqr((currentInfo.acc - info.acc) / 2);
-				//the following line makes it score over 90%+ against Cigaret 1.31TC, but worse against others (wavesurfers in particular)
-				if (firedOnlyStats) currentDistance += sqr((currentInfo.myGunHeat - info.myGunHeat)) * 100;
-
+				currentDistance += Helpers.sqr((currentInfo.dtm - info.dtm)) * 4;
+				currentDistance += Helpers.sqr((currentInfo.atm -  info.atm));
+				currentDistance += Helpers.sqr((currentInfo.v - info.v)) * 2;
+				currentDistance += Helpers.sqr((currentInfo.dtwf - info.dtwf)) * 4;
+				currentDistance += Helpers.sqr((currentInfo.dtwb - info.dtwb));
+				currentDistance += Helpers.sqr((currentInfo.runTime - info.runTime));
+				currentDistance += Helpers.sqr((currentInfo.lastRunTime - info.lastRunTime));
+				currentDistance += Helpers.sqr((currentInfo.acc - info.acc) / 2);
+				
 				int i = topCount - 1;
 				while (i >= 0 && currentDistance < topDiff[i]) i--;
 				if (i < topCount - 1) {
@@ -249,7 +214,6 @@ public class DCTargeting {
 				}
 
 				info = info.previous;
-				iCount++;
 				if (info.t > t1) newRound = true;
 			}
 		}
@@ -260,7 +224,6 @@ public class DCTargeting {
 		double[][] angles = new double[topCount][4];
 		for (int i = 0; i < topCount; i++) angles[i][0] = 1000;
 		int angCount = 0;
-		double angSum = 0, avgAng = 0;
 		for (int i = 0; i < topCount && angCount < angMax; i++) {
 			double ang = getGunAngle(topInfo[i]);
 			if (ang < 1000) {
@@ -280,7 +243,6 @@ public class DCTargeting {
 					}
 				}
 				angCount++;
-				angSum += ang;
 			}
 		}
 		double maxCount = 0; int maxIDX = 0;
@@ -311,7 +273,7 @@ public class DCTargeting {
 			predAng = Math.PI/2 - Math.atan2(endInfo.y - predictedInfo.y, endInfo.x - predictedInfo.x) - Math.toRadians(predictedInfo.d);
 			predx = currInfo.x + predDist * Math.sin(Math.toRadians(currInfo.d) + predAng);
 			predy = currInfo.y + predDist * Math.cos(Math.toRadians(currInfo.d) + predAng);
-			predDist = Helpers.distanceTo(predx, predy, nextX, nextY) - centerHitDist;
+			predDist = Helpers.distanceTo(predx, predy, nextX, nextY);
 			bulletTime = (long)(predDist / bulletSpeed) + 1;//<-- +1
 			if (Math.abs(endInfo.t - predictedInfo.t - timeDelta - bulletTime) <= 1) break;
 			endInfo = predictedInfo;
@@ -342,16 +304,12 @@ public class DCTargeting {
 		public ScanInfo previous;
 		public ScanInfo next;
 
-		public ScanInfo (double x1, double y1, double d1, double v1, long t1) {
-			x = x1;
-			y = y1;
+		public ScanInfo (Point2D.Double pos, double d1, double v1, long t1) {
+			x = pos.getX();
+			y = pos.getY();
 			d = d1;
 			v = v1;
 			t = t1;
 		}
-	}
-
-	private static final double sqr(double x) {
-		return(x * x);
 	}
 }										

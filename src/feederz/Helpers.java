@@ -1,9 +1,6 @@
 package feederz;
 import robocode.*;
 
-/**
- * BotUtils - a class by ABC
- */
 final class Helpers {
 	
 	public static double sqr(double x) {
