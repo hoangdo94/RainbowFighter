@@ -16,7 +16,7 @@ public class WaveSurfing {
 	public Point2D.Double enemyPosition;
 	public ArrayList<EnemyWave> enemyWaves;
 	public ArrayList<Integer> directionArray;
-	public static final int BINS = 52;
+	public static final int BINS = 94;
 	public static double statArray[] = new double[BINS];
 	public ArrayList<Double> absBearingsArray;
 	public static double adversaryEnergy = 100.0; // Last known adversary's
