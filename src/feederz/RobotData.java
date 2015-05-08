@@ -7,7 +7,7 @@ import robocode.ScannedRobotEvent;
 
 public class RobotData {
 	AdvancedRobot ourRobot;
-	double bearingRadians;
+	double bearingRadians; // radians
 	double distance;
 	double energy;
 	double headingRadians; // radians
