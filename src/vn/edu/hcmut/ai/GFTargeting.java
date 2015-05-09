@@ -10,8 +10,6 @@ import robocode.util.Utils;
 
 public class GFTargeting {
 	private AdvancedRobot robot;
-	private static final double BULLET_POWER = 1.9;
-	
 	private static double lateralDirection;
 	private static double lastEnemyVelocity;
 	
@@ -30,16 +28,26 @@ public class GFTargeting {
 		wave.gunLocation = new Point2D.Double(robot.getX(), robot.getY());
 		BulletWave.targetLocation = Helpers.project(wave.gunLocation, enemyAbsoluteBearing, enemyDistance);
 		wave.lateralDirection = lateralDirection;
-		wave.bulletPower = BULLET_POWER;
+		wave.bulletPower = calcBulletPower(e);
 		wave.setSegmentations(enemyDistance, enemyVelocity, lastEnemyVelocity);
 		lastEnemyVelocity = enemyVelocity;
 		wave.bearing = enemyAbsoluteBearing;
 		robot.setTurnGunRightRadians(Utils.normalRelativeAngle(enemyAbsoluteBearing - robot.getGunHeadingRadians() + wave.mostVisitedBearingOffset()));
 		robot.setFire(wave.bulletPower);
-		if (robot.getEnergy() >= BULLET_POWER) {
+		if (robot.getEnergy() >= wave.bulletPower) {
 			robot.addCustomEvent(wave);
 		}
 		robot.setTurnRadarRightRadians(Utils.normalRelativeAngle(enemyAbsoluteBearing - robot.getRadarHeadingRadians()) * 2);
+	}
+	
+	public double calcBulletPower(ScannedRobotEvent e) {
+		double bulletPower = 0;
+		bulletPower = e.getDistance() > 150 ? 1.9 : 3;
+		bulletPower = Math.min(bulletPower, (e.getEnergy() + .1) / 4);
+		if (bulletPower * 6 >= robot.getEnergy()) bulletPower = robot.getEnergy() / 6;
+		if (bulletPower >= robot.getEnergy() - .1) bulletPower = robot.getEnergy() - .1;
+		bulletPower = Math.max(Rules.MIN_BULLET_POWER, Math.min(Rules.MAX_BULLET_POWER, bulletPower));
+		return bulletPower;
 	}
 }
 
