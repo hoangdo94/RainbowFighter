@@ -5,14 +5,11 @@
 package vn.edu.hcmut.ai;
 
 import java.awt.Color;
-import java.util.ArrayList;
 
 import robocode.*;
 import robocode.util.Utils;
 
 public class feederz_spring2015 extends AdvancedRobot {
-	public RobotData robotData = new RobotData(this);
-	public ArrayList<RobotData> dataSeries = new ArrayList<RobotData>();
 	Color colors[] = { new Color(255, 0, 0), new Color(255, 127, 0),
 			new Color(255, 255, 0), new Color(0, 255, 0), new Color(0, 0, 255),
 			new Color(75, 0, 130), new Color(143, 0, 255) };
@@ -49,8 +46,8 @@ public class feederz_spring2015 extends AdvancedRobot {
 	}
 
 
-	public void controllRadar() {
-		double absBearing = robotData.bearingRadians + getHeadingRadians();
+	public void controllRadar(ScannedRobotEvent e) {
+		double absBearing = e.getBearingRadians() + getHeadingRadians();
 		setTurnRadarRightRadians(Utils.normalRelativeAngle(absBearing
 				- getRadarHeadingRadians()) * 2);
 	}
@@ -63,14 +60,13 @@ public class feederz_spring2015 extends AdvancedRobot {
 	}
 
 	public void onScannedRobot(ScannedRobotEvent e) {
-		dataSeries.add(robotData);
-		robotData.updateData(e);
 		waveSurfing.updateData(e);
 		//gunController.updateData();
 		//gunController.setTurnAndFire();
 		gunController.updateData(e);
+		controllRadar(e);
 		controllRobot();
-		controllRadar();
+		
 	}
 
 	public void onHitByBullet(HitByBulletEvent e) {

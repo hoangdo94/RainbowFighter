@@ -4,6 +4,7 @@ import java.awt.geom.Point2D;
 
 import robocode.AdvancedRobot;
 import robocode.Condition;
+import robocode.Rules;
 import robocode.ScannedRobotEvent;
 import robocode.util.Utils;
 
@@ -25,9 +26,9 @@ public class GFTargeting {
 		if (enemyVelocity != 0) {
 			lateralDirection = Helpers.sign(enemyVelocity * Math.sin(e.getHeadingRadians() - enemyAbsoluteBearing));
 		}
-		GFTWave wave = new GFTWave(robot);
+		BulletWave wave = new BulletWave(robot);
 		wave.gunLocation = new Point2D.Double(robot.getX(), robot.getY());
-		GFTWave.targetLocation = Helpers.project(wave.gunLocation, enemyAbsoluteBearing, enemyDistance);
+		BulletWave.targetLocation = Helpers.project(wave.gunLocation, enemyAbsoluteBearing, enemyDistance);
 		wave.lateralDirection = lateralDirection;
 		wave.bulletPower = BULLET_POWER;
 		wave.setSegmentations(enemyDistance, enemyVelocity, lastEnemyVelocity);
@@ -42,7 +43,7 @@ public class GFTargeting {
 	}
 }
 
-class GFTWave extends Condition {
+class BulletWave extends Condition {
 	static Point2D targetLocation;
 
 	double bulletPower;
@@ -64,7 +65,7 @@ class GFTWave extends Condition {
 	private AdvancedRobot robot;
 	private double distanceTraveled;
 	
-	GFTWave(AdvancedRobot _robot) {
+	BulletWave(AdvancedRobot _robot) {
 		this.robot = _robot;
 	}
 	
@@ -89,7 +90,7 @@ class GFTWave extends Condition {
 	}
 
 	private void advance() {
-		distanceTraveled += Helpers.bulletVelocity(bulletPower);
+		distanceTraveled += Rules.getBulletSpeed(bulletPower);
 	}
 
 	private boolean hasArrived() {
