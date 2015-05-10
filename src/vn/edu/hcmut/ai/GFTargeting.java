@@ -47,6 +47,7 @@ public class GFTargeting {
 		if (bulletPower * 6 >= robot.getEnergy()) bulletPower = robot.getEnergy() / 6;
 		if (bulletPower >= robot.getEnergy() - .1) bulletPower = robot.getEnergy() - .1;
 		bulletPower = Math.max(Rules.MIN_BULLET_POWER, Math.min(Rules.MAX_BULLET_POWER, bulletPower));
+		if (robot.getEnergy() < 10.0) bulletPower = 0.1;
 		return bulletPower;
 	}
 }
