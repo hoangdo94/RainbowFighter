@@ -66,12 +66,15 @@ public class feederz_spring2015 extends AdvancedRobot {
 		gunController.updateData(e);
 		controllRadar(e);
 		controllRobot();
-		
 	}
 
 	public void onHitByBullet(HitByBulletEvent e) {
 		changeAllColors();
-		waveSurfing.onHitByBulletHandler(e);
+		waveSurfing.onHitByBullet(e);
+	}
+	
+	public void onBulletHitBullet(BulletHitBulletEvent e){
+		waveSurfing.onBulletHitBullet(e);
 	}
 	
 	public void onBulletHit(BulletHitEvent e) {

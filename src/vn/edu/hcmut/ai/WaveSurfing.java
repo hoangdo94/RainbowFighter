@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import robocode.AdvancedRobot;
 import robocode.Bullet;
+import robocode.BulletHitBulletEvent;
 import robocode.HitByBulletEvent;
 import robocode.ScannedRobotEvent;
 import robocode.util.Utils;
@@ -16,19 +17,21 @@ public class WaveSurfing {
 	public Point2D.Double enemyPosition;
 	public ArrayList<EnemyWave> enemyWaves;
 	public ArrayList<Integer> directionArray;
-	public static final int BINS = 94;
+	public static final int BINS = 52;
 	public static double statArray[] = new double[BINS];
 	public ArrayList<Double> absBearingsArray;
 	public static double adversaryEnergy = 100.0; // Last known adversary's
 	public static final int BATTLEFIELD_WIDTH = 800;
 	public static final int BATTLEFIELD_HEIGHT = 600;
 	public static final int BULLET_FIRING_TIME_DELTA = 1;
+	public static final int WALL_STICK = 160;
 	// 800 x 600 battlefield rectangle
 	static final int BOUNDARY_SIZE = 18;
 	public static Rectangle2D.Double playingRectangle = new java.awt.geom.Rectangle2D.Double(
 			BOUNDARY_SIZE, BOUNDARY_SIZE, BATTLEFIELD_WIDTH - BOUNDARY_SIZE,
 			BATTLEFIELD_HEIGHT - BOUNDARY_SIZE);
 	public final int MAX_PREDICTION_TICK_NUMBER = 500;
+	public final int MAX_SURFING_DISTANCE = 400;
 
 	public WaveSurfing(AdvancedRobot robot) {
 		this.ourRobot = robot;
@@ -86,7 +89,7 @@ public class WaveSurfing {
 		updateWaves();
 	}
 	
-	public void onHitByBulletHandler(HitByBulletEvent e){
+	public void onHitByBullet(HitByBulletEvent e){
 		if (!enemyWaves.isEmpty()) {
 			Bullet hitBullet = e.getBullet();
 			Point2D.Double hitBulletLocation = new Point2D.Double(
@@ -101,6 +104,33 @@ public class WaveSurfing {
 						&& Math.abs(Helpers.getBulletVelocity(e.getBullet().getPower())
 								- ew.bulletVelocity) < 0.001) {
 					hitWave = ew;
+					break;
+				}
+			}
+
+			if (hitWave != null) {
+				updateStatArray(hitWave, hitBulletLocation);
+				enemyWaves.remove(enemyWaves.lastIndexOf(hitWave));
+			}
+		}
+	}
+	
+	public void onBulletHitBullet(BulletHitBulletEvent e) {
+		if (!enemyWaves.isEmpty()) {
+			Bullet hitBullet = e.getHitBullet();
+			Point2D.Double hitBulletLocation = new Point2D.Double(
+					hitBullet.getX(), hitBullet.getY());
+			EnemyWave hitWave = null;
+
+			for (int x = 0; x < enemyWaves.size(); x++) {
+				EnemyWave ew = (EnemyWave) enemyWaves.get(x);
+
+				if (Math.abs(ew.distanceTraveled
+						- ew.fireLocation.distance(hitBulletLocation)) <= 0.001
+						&& Math.abs(Helpers.getBulletVelocity(hitBullet
+								.getPower()) - ew.bulletVelocity) < 0.001) {
+					hitWave = ew;
+					System.out.println("Bullet hit by Bulet");
 					break;
 				}
 			}
@@ -137,11 +167,28 @@ public class WaveSurfing {
 		return statArray[index];
 	}
 	
+//	public double wallSmoothing(Point2D.Double botLocation, double angle,
+//			int orientation) {
+//		while (!playingRectangle.contains(Helpers
+//				.getPositionFromAngleAndDistance(botLocation, angle, 160))) {
+//			angle += orientation * 0.05;
+//		}
+//		return angle;
+//	}
+	
 	public double wallSmoothing(Point2D.Double botLocation, double angle,
 			int orientation) {
-		while (!playingRectangle.contains(Helpers
-				.getPositionFromAngleAndDistance(botLocation, angle, 160))) {
-			angle += orientation * 0.05;
+		double offset = 0;
+		while (!playingRectangle
+				.contains(Helpers.getPositionFromAngleAndDistance(botLocation,
+						angle, WALL_STICK))
+				|| Helpers.getPositionFromAngleAndDistance(botLocation, angle,
+						WALL_STICK).distance(botLocation) >= MAX_SURFING_DISTANCE) {
+			offset = offset + orientation * 0.05;
+			if (Math.abs(offset) > Math.PI / 2)
+				break;
+			else
+				angle += orientation * 0.05;
 		}
 		return angle;
 	}

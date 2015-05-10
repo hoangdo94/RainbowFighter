@@ -64,4 +64,5 @@ final class Helpers {
 	static int minMax(int v, int min, int max) {
 		return Math.max(min, Math.min(max, v));
 	}
+	
 }
