@@ -7,9 +7,11 @@ import java.util.ArrayList;
 import robocode.AdvancedRobot;
 import robocode.Bullet;
 import robocode.BulletHitBulletEvent;
+import robocode.BulletHitEvent;
 import robocode.HitByBulletEvent;
 import robocode.ScannedRobotEvent;
 import robocode.util.Utils;
+import sun.security.x509.DeltaCRLIndicatorExtension;
 
 public class WaveSurfing {
 	AdvancedRobot ourRobot;
@@ -21,18 +23,21 @@ public class WaveSurfing {
 	public static double statArray[] = new double[BINS];
 	public static ArrayList<Double> absBearingsArray;
 	public static double adversaryEnergy = 100.0; // Last known adversary's
-	public static final int BATTLEFIELD_WIDTH = 800;
-	public static final int BATTLEFIELD_HEIGHT = 600;
 	public static final int BULLET_FIRING_TIME_DELTA = 1;
 	public static final int WALL_STICK = 160;
+	public final double ROBOT_SIZE = 50;
 	// 800 x 600 battlefield rectangle
+	public static final int BATTLEFIELD_WIDTH = 800;
+	public static final int BATTLEFIELD_HEIGHT = 600;
 	static final int BOUNDARY_SIZE = 18;
-	public static Rectangle2D.Double playingRectangle = new java.awt.geom.Rectangle2D.Double(
+	public static Rectangle2D.Double playingRectangle = new Rectangle2D.Double(
 			BOUNDARY_SIZE, BOUNDARY_SIZE,
 			BATTLEFIELD_WIDTH - BOUNDARY_SIZE * 2, BATTLEFIELD_HEIGHT
 					- BOUNDARY_SIZE * 2);
-	public final int MAX_PREDICTION_TICK_NUMBER = 500;
+	public final int MAX_PREDICTION_TICK_NUMBER = 800;
 	public final int MAX_SURFING_DISTANCE = 400;
+
+	public double hitTime = 0;
 
 	public WaveSurfing(AdvancedRobot robot) {
 		this.ourRobot = robot;
@@ -75,22 +80,36 @@ public class WaveSurfing {
 		absBearingsArray.add(0, new Double(absBearing + Math.PI));
 
 		double bulletPower = adversaryEnergy - e.getEnergy();
+		// Check if it is a fake wave
+		double deltaHitTime = (this.ourRobot.getTime() - BULLET_FIRING_TIME_DELTA)
+				- this.hitTime;
 		if (bulletPower <= 3 && bulletPower >= 0.1 && directionArray.size() > 2) {
-			EnemyWave ew = new EnemyWave();
-			ew.fireTime = ourRobot.getTime() - BULLET_FIRING_TIME_DELTA;
-			ew.bulletVelocity = Helpers.getBulletVelocity(bulletPower);
-			ew.distanceTraveled = Helpers.getBulletVelocity(bulletPower);
-			ew.direction = ((Integer) directionArray.get(2)).intValue();
-			ew.directAngle = ((Double) absBearingsArray.get(2)).doubleValue();
-			ew.fireLocation = (Point2D.Double) this.enemyPosition.clone(); // last
-			// tick
+			System.out.print("Checking ");
+			if (Math.abs(deltaHitTime) >= 3) {
+				EnemyWave ew = new EnemyWave();
+				ew.fireTime = ourRobot.getTime() - BULLET_FIRING_TIME_DELTA;
+				ew.bulletVelocity = Helpers.getBulletVelocity(bulletPower);
+				ew.distanceTraveled = Helpers.getBulletVelocity(bulletPower);
+				ew.direction = ((Integer) directionArray.get(2)).intValue();
+				ew.directAngle = ((Double) absBearingsArray.get(2))
+						.doubleValue();
+				ew.fireLocation = (Point2D.Double) this.enemyPosition.clone(); // last
+				// tick
 
-			enemyWaves.add(ew);
+				enemyWaves.add(ew);
+				System.out.println("real");
+			} else {
+				System.out.println("fake");
+			}
 		}
 		adversaryEnergy = e.getEnergy();
 		this.enemyPosition = Helpers.getPositionFromAngleAndDistance(
 				this.ourRobotPosition, absBearing, e.getDistance());
 		updateWaves();
+	}
+
+	public void onBulletHit(BulletHitEvent e) {
+		this.hitTime = this.ourRobot.getTime();
 	}
 
 	public void onHitByBullet(HitByBulletEvent e) {
@@ -169,35 +188,20 @@ public class WaveSurfing {
 	public double checkDanger(EnemyWave surfWave, int direction) {
 		int index = calculateIndex(surfWave,
 				predictPosition(surfWave, direction));
-
 		return statArray[index];
 	}
 
 	public double wallSmoothing(Point2D.Double botLocation, double angle,
 			int orientation) {
-		while (!playingRectangle.contains(Helpers
-				.getPositionFromAngleAndDistance(botLocation, angle, 160))) {
+		Point2D.Double guesingPosition = Helpers
+				.getPositionFromAngleAndDistance(botLocation, angle, WALL_STICK);
+		while (!playingRectangle.contains(guesingPosition)) {
 			angle += orientation * 0.05;
+			guesingPosition = Helpers.getPositionFromAngleAndDistance(
+					botLocation, angle, WALL_STICK);
 		}
 		return angle;
 	}
-
-	// public double wallSmoothing(Point2D.Double botLocation, double angle,
-	// int orientation) {
-	// double offset = 0;
-	// while (!playingRectangle
-	// .contains(Helpers.getPositionFromAngleAndDistance(botLocation,
-	// angle, WALL_STICK))
-	// || Helpers.getPositionFromAngleAndDistance(botLocation, angle,
-	// WALL_STICK).distance(botLocation) >= MAX_SURFING_DISTANCE) {
-	// offset = offset + orientation * 0.05;
-	// if (Math.abs(offset) > Math.PI / 2)
-	// break;
-	// else
-	// angle += orientation * 0.05;
-	// }
-	// return angle;
-	// }
 
 	public Point2D.Double predictPosition(EnemyWave surfWave, int direction) {
 		Point2D.Double predictedPosition = (Point2D.Double) ourRobotPosition
@@ -205,7 +209,7 @@ public class WaveSurfing {
 		double predictedVelocity = ourRobot.getVelocity();
 		double predictedHeading = ourRobot.getHeadingRadians();
 		double maxTurning, moveAngle, moveDir;
-
+		double robotDistance, bulletDistance;
 		int counter = 0; // number of ticks in the future
 		boolean intercepted = false;
 
@@ -246,10 +250,11 @@ public class WaveSurfing {
 					predictedPosition, predictedHeading, predictedVelocity);
 
 			counter++;
-
-			if (predictedPosition.distance(surfWave.fireLocation) < surfWave.distanceTraveled
+			robotDistance = predictedPosition.distance(surfWave.fireLocation);
+			bulletDistance = surfWave.distanceTraveled
 					+ (counter * surfWave.bulletVelocity)
-					+ surfWave.bulletVelocity) {
+					+ surfWave.bulletVelocity;
+			if (robotDistance < bulletDistance) {
 				intercepted = true;
 			}
 		} while (!intercepted && counter < MAX_PREDICTION_TICK_NUMBER);
@@ -269,16 +274,14 @@ public class WaveSurfing {
 	}
 
 	public void updateWaves() {
-		for (int x = 0; x < enemyWaves.size(); x++) {
-			EnemyWave ew = (EnemyWave) enemyWaves.get(x);
-
+		for (int i = 0; i < enemyWaves.size(); i++) {
+			EnemyWave ew = (EnemyWave) enemyWaves.get(i);
 			ew.distanceTraveled = (ourRobot.getTime() - ew.fireTime)
 					* ew.bulletVelocity;
-			// remove this wave if it pass 50 over out robot
 			if (ew.distanceTraveled > ourRobotPosition
-					.distance(ew.fireLocation) + 50) {
-				enemyWaves.remove(x);
-				x--;
+					.distance(ew.fireLocation) + ROBOT_SIZE) {
+				enemyWaves.remove(i);
+				i--;
 			}
 		}
 	}

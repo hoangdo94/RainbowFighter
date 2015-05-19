@@ -79,6 +79,7 @@ public class feederz_spring2015 extends AdvancedRobot {
 	
 	public void onBulletHit(BulletHitEvent e) {
 		//gunController.hitCount++;
+		waveSurfing.onBulletHit(e);
 	}
 	
 	public void onRoundEnded(RoundEndedEvent event) {
