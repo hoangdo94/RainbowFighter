@@ -11,7 +11,6 @@ import robocode.BulletHitEvent;
 import robocode.HitByBulletEvent;
 import robocode.ScannedRobotEvent;
 import robocode.util.Utils;
-import sun.security.x509.DeltaCRLIndicatorExtension;
 
 public class WaveSurfing {
 	AdvancedRobot ourRobot;

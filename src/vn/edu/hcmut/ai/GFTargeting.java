@@ -82,7 +82,6 @@ class BulletWave extends Condition {
 	public boolean test() {
 		advance();
 		if (hasArrived()) {
-			robot.out.println("a");
 			buffer[currentBin()]++;
 			robot.removeCustomEvent(this);
 		}
