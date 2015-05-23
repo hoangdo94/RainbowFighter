@@ -263,7 +263,61 @@ Chương trình không quan tâm đến việc giữ khoảng cách tương đ�
 Như đã trình bày ở phần trước, mỗi lần phát hiện ra đối thủ mất một mức năng lượng $0 < p \leq 3.0$ thì robot sẽ ghi nhận một viện đạn được bắn ra. Cách dự đoán này tuy đa phần chính xác những có một số trường hợp ngoại lệ, đặc biệt là khi gần kết thúc trận đấu - cả hai đều bắn đi những viên đạn có năng lượng nhỏ. Nói là không chính xác bởi vì không phải lúc nào đối thủ mất năng lượng cũng đều do bắn đạn. Đó có thể là do nó bị trúng đạn của ta bắn. Trong trường hợp đó, data thu thập được sẽ bị sai do những "viên đạn ảo" này, ảnh hưởng đến khả năng dự đoán.\\
 {\bf Thay đổi chiến lược né đạn}\\
 Hiện tại ý tưởng né đạn vẫn là xác định xem viên đạn nào di chuyển đến gần robot nhất để né. Giải pháp này không hiệu quả bằng việc xem xét né viên đạn sẽ chạm robot trước thay vì viên gần nhất.
-
-
 \section{Guess Factor}
+\section{Javadoc}
+\subsection{Class WaveSurfing}
+\begin{tabular}{|p{4cm}|p{6cm}|p{6cm}|}
+\hline
+\bf Tên hàm&\bf Parameters&\bf Giải thích\\
+\hline
+WaveSurfing&robot: Đối tượng robot cần điều kiển di chuyển& Hàm constructor của class WaveSurfing\\
+\hline
+getPerfectAngleToGo&@return: góc (radian)& Xác định góc an toàn nhất để đi, có xét đến việc tránh đạn cũng như tránh tường\\
+\hline
+updateData&e: đối tượng thuộc sự kiện ScannedRobotEvent&Dựa vào những thông tin có được từ đối tượng ScannedRobotEvent, tiến hành cập nhật:
+	\begin{itemize}
+		\item Vị trí hiện tại của robot
+		\item Hướng di chuyển
+		\item Góc nhắm của enemy vào robot
+		\item Tạo EnemyWave mới nếu phát hiện đạn được bắn ra
+	\end{itemize}\\
+\hline
+onBulletHit&e: đối tượng BulletHitEvent& Cập nhật thông tin về thời điểm đạn của mình bắn trúng đối phương, phục vụ cho quá trình dự đoán xuất hiện EnemyWave\\
+\hline
+onHitByBullet&e: đối tượng HitByBulletEvent& Cập nhật thông tin về viên đạn của đối phương bắn trúng mình. Những dữ liệu này được sử dụng để tính toán lại mức độ nguy hiểm (cập nhật lại giá trị trong các BIN)\\
+\hline
+
+\end{tabular}
+
+\subsubsection*{Thông tin các thuộc tính}
+
+\begin{tabular}{llp{9cm}}
+\textbf{ourRobot}&AdvancedRobot&Đối tượng robot được truyền vào để điều khiển\\
+\textbf{ourRobotPosition}&Point2D&Vị trí hiện tại của robot\\
+\textbf{enemyPosition}&Point2D&Vị trí hiện tại của đối thủ\\
+enemyWaves&ArrayList<EnemyWave>&List các đối tượng EnemyWave chứa thông tin về các viên đạn của đối thủ bắn ra\\
+directionArray&ArrayList<Integer>&List chứa các hướng di chuyển của robot theo thời gian\\
+BINS&int&Số lượng BIN tối đa được chia ra\\
+statArray&double[]&Dãy chứa các giá trị của các BIN\\
+absBearingsArray&ArrayList<Double>&Chứa các góc ngắm tuyệt đối của đối thủ (radian)\\
+\end{tabular}
+
+\subsubsection{Thông tin các hàm}
+\textbf{WaveSurfing}\\
+	\begin{description}
+		\item public WaveSurfing(AdvancedRobot robot)
+		\item Khởi tạo đối tượng WaveSurfing
+		\item Parameters:
+		\begin{description}
+				\item[robot] - đối tượng robot cần gán điều khiển di chuyển
+			\end{description}
+	\end{description}
+\vspace{0.5cm}
+\textbf{getPerfectAngleToGo}
+	\begin{description}
+		\item public double getPerfectAngleToGo()
+		\item Chọn góc đi phù hợp nhất, có xét đến cả sự đụng tường và né đạn
+		\item Returns: Góc đi (radian)
+	\end{description}
+
 \end{document}

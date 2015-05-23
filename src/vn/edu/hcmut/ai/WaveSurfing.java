@@ -67,7 +67,10 @@ public class WaveSurfing {
 		}
 		return goAngle;
 	}
-
+	/**
+	 * Update necessary information for controlling robot movement
+	 * @param e
+	 */
 	public void updateData(ScannedRobotEvent e) {
 		// Update our robot position
 		ourRobotPosition = new Point2D.Double(ourRobot.getX(), ourRobot.getY());

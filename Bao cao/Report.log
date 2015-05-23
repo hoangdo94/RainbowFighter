@@ -1,7 +1,7 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9) (preloaded format=pdflatex 2015.1.24)  23 MAY 2015 11:18
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9) (preloaded format=pdflatex 2015.1.24)  23 MAY 2015 18:17
 entering extended mode
 **Report.tex
-("E:\Nha Thuong Dien\Tang 6 - Pho Khong Den\Water\Ass2\Bao cao\Report.tex"
+("E:\RainbowFighter\Bao cao\Report.tex"
 LaTeX2e <2011/06/27>
 Babel <v3.8m> and hyphenation patterns for english, afrikaans, ancientgreek, ar
 abic, armenian, assamese, basque, bengali, bokmal, bulgarian, catalan, coptic, 
@@ -595,7 +595,7 @@ File: lstlang1.sty 2014/09/06 1.5e listings language file
 LaTeX Warning: Unused global option(s):
     [14pt].
 
-("E:\Nha Thuong Dien\Tang 6 - Pho Khong Den\Water\Ass2\Bao cao\Report.aux")
+("E:\RainbowFighter\Bao cao\Report.aux")
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 35.
 LaTeX Font Info:    ... okay on input line 35.
 LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 35.
@@ -694,19 +694,19 @@ Overfull \hbox (44.46906pt too wide) in paragraph at lines 89--105
 
 [1
 
-{C:/ProgramData/MiKTeX/2.9/pdftex/config/pdftex.map} <E:/Nha Thuong Dien/Tang 6
- - Pho Khong Den/Water/Ass2/Bao cao/Images/hcmut.pdf>] [2]
-("E:\Nha Thuong Dien\Tang 6 - Pho Khong Den\Water\Ass2\Bao cao\Report.toc"
+{C:/ProgramData/MiKTeX/2.9/pdftex/config/pdftex.map} <E:/RainbowFighter/Bao cao
+/Images/hcmut.pdf>] [2] ("E:\RainbowFighter\Bao cao\Report.toc"
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <7> on input line 2.
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <5> on input line 2.
 )
 \tf@toc=\write3
-
-[3] ("E:\Nha Thuong Dien\Tang 6 - Pho Khong Den\Water\Ass2\Bao cao\Report.lof")
+ [3]
+("E:\RainbowFighter\Bao cao\Report.lof")
 \tf@lof=\write4
-[4] [5] <images/classStructrure.png, id=28, 414.04688pt x 295.85532pt>
+ [4] [5]
+<images/classStructrure.png, id=28, 414.04688pt x 295.85532pt>
 File: images/classStructrure.png Graphic file (type png)
 
 <use images/classStructrure.png>
@@ -732,15 +732,15 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[6 <E:/Nha Thuong Dien/Tang 6 - Pho Khong Den/Water/Ass2/Bao cao/images/classSt
-ructrure.png>]
+[6 <E:/RainbowFighter/Bao cao/images/classStructrure.png>]
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <9> on input line 156.
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <6> on input line 156.
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <9> not available
 (Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 156.
- <images/wallsmoothing.png, id=38, 587.3142pt x 504.9264pt>
+
+<images/wallsmoothing.png, id=38, 587.3142pt x 504.9264pt>
 File: images/wallsmoothing.png Graphic file (type png)
 
 <use images/wallsmoothing.png>
@@ -756,9 +756,8 @@ File: Images/hcmut.pdf Graphic file (type pdf)
 <use Images/hcmut.pdf>
 Package pdftex.def Info: Images/hcmut.pdf used on input line 200.
 (pdftex.def)             Requested size: 22.75414pt x 22.7569pt.
- [8 <E:/Nha Thuong Dien/Tang 6 - Pho Khong Den/Water/Ass2/Bao cao/images/wallsm
-oothing.png>]
-<images/wavesurfing_introduction.png, id=53, 615.2586pt x 357.4956pt>
+ [8 <E:/RainbowFighter/Bao cao/images/wallsmoothing.png>] <images/wavesurfing_i
+ntroduction.png, id=53, 615.2586pt x 357.4956pt>
 File: images/wavesurfing_introduction.png Graphic file (type png)
 
 <use images/wavesurfing_introduction.png>
@@ -776,51 +775,65 @@ File: Images/hcmut.pdf Graphic file (type pdf)
  <use Images/hcmut.pdf>
 Package pdftex.def Info: Images/hcmut.pdf used on input line 223.
 (pdftex.def)             Requested size: 22.75414pt x 22.7569pt.
- [9 <E:/Nha Thuong Dien/Tang 6 - Pho Khong Den/Water/Ass2/Bao cao/images/wavesu
-rfing_introduction.png>]
+ [9 <E:/RainbowFighter/Bao cao/images/wavesurfing_introduction.png>]
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <8> on input line 223.
 File: Images/hcmut.pdf Graphic file (type pdf)
-
-<use Images/hcmut.pdf>
+ <use Images/hcmut.pdf>
 Package pdftex.def Info: Images/hcmut.pdf used on input line 238.
 (pdftex.def)             Requested size: 22.75414pt x 22.7569pt.
- [10 <E:/Nha Thuong Dien/Tang 6 - Pho Khong Den/Water/Ass2/Bao cao/images/segme
-ntation.png>]
+ [10 <E:/RainbowFighter/Bao cao/images/segmentation.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 277--277
+[]|\T5/cmr/m/n/10 e: èi t÷ñng thuëc sü ki»n
+ []
+
 File: Images/hcmut.pdf Graphic file (type pdf)
- <use Images/hcmut.pdf>
-Package pdftex.def Info: Images/hcmut.pdf used on input line 269.
+<use Images/hcmut.pdf>
+Package pdftex.def Info: Images/hcmut.pdf used on input line 292.
 (pdftex.def)             Requested size: 22.75414pt x 22.7569pt.
  [11]
-("E:\Nha Thuong Dien\Tang 6 - Pho Khong Den\Water\Ass2\Bao cao\Report.aux") ) 
+Underfull \hbox (badness 10000) in paragraph at lines 306--307
+
+ []
+
+File: Images/hcmut.pdf Graphic file (type pdf)
+<use Images/hcmut.pdf>
+Package pdftex.def Info: Images/hcmut.pdf used on input line 309.
+(pdftex.def)             Requested size: 22.75414pt x 22.7569pt.
+ [12]
+File: Images/hcmut.pdf Graphic file (type pdf)
+ <use Images/hcmut.pdf>
+Package pdftex.def Info: Images/hcmut.pdf used on input line 323.
+(pdftex.def)             Requested size: 22.75414pt x 22.7569pt.
+ [13]
+("E:\RainbowFighter\Bao cao\Report.aux") ) 
 Here is how much of TeX's memory you used:
  5224 strings out of 493921
- 66990 string characters out of 3144879
- 166114 words of memory out of 3000000
+ 66605 string characters out of 3144879
+ 169114 words of memory out of 3000000
  8431 multiletter control sequences out of 15000+200000
  24575 words of font info for 48 fonts, out of 3000000 for 9000
  841 hyphenation exceptions out of 8191
  41i,26n,43p,1432b,1993s stack positions out of 5000i,500n,10000p,200000b,50000s
-<C
-:/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/
-Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Pro
-gram Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Progra
-m Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Program Fi
-les (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Program File
-s (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy9.pfb><C:/Program Files (
-x86)/MiKTeX 2.9/fonts/type1/vntex/vnr/vnbx10.pfb><C:/Program Files (x86)/MiKTeX
- 2.9/fonts/type1/vntex/vnr/vnbx12.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/
-type1/vntex/vnr/vnbx9.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/vntex/
-vnr/vnr10.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/vntex/vnr/vnr17.pf
-b><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/vntex/vnr/vnr5.pfb><C:/Program
- Files (x86)/MiKTeX 2.9/fonts/type1/vntex/vnr/vnr6.pfb><C:/Program Files (x86)/
-MiKTeX 2.9/fonts/type1/vntex/vnr/vnr7.pfb><C:/Program Files (x86)/MiKTeX 2.9/fo
-nts/type1/vntex/vnr/vnr8.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/vnt
-ex/vnr/vnr9.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/vntex/vnr/vnti10
-.pfb>
-Output written on Report.pdf (11 pages, 1021363 bytes).
+<C:/Program Files (x86)/MiKTeX 2.9/fo
+nts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Program Files (x86)/MiKTeX 2.9/font
+s/type1/public/amsfonts/cm/cmmi7.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/t
+ype1/public/amsfonts/cm/cmr10.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type
+1/public/amsfonts/cm/cmr7.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/pu
+blic/amsfonts/cm/cmsy10.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/publ
+ic/amsfonts/cm/cmsy9.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/vntex/v
+nr/vnbx10.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/vntex/vnr/vnbx12.p
+fb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/vntex/vnr/vnbx9.pfb><C:/Progr
+am Files (x86)/MiKTeX 2.9/fonts/type1/vntex/vnr/vnr10.pfb><C:/Program Files (x8
+6)/MiKTeX 2.9/fonts/type1/vntex/vnr/vnr17.pfb><C:/Program Files (x86)/MiKTeX 2.
+9/fonts/type1/vntex/vnr/vnr5.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1
+/vntex/vnr/vnr6.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/vntex/vnr/vn
+r7.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/vntex/vnr/vnr8.pfb><C:/Pr
+ogram Files (x86)/MiKTeX 2.9/fonts/type1/vntex/vnr/vnr9.pfb><C:/Program Files (
+x86)/MiKTeX 2.9/fonts/type1/vntex/vnr/vnti10.pfb>
+Output written on Report.pdf (13 pages, 1027060 bytes).
 PDF statistics:
- 121 PDF objects out of 1000 (max. 8388607)
+ 128 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
  26 words of extra memory for PDF output out of 10000 (max. 10000000)
 
