@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9) (preloaded format=pdflatex 2015.1.24)  19 MAY 2015 11:05
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9) (preloaded format=pdflatex 2015.1.24)  23 MAY 2015 11:18
 entering extended mode
 **Report.tex
 ("E:\Nha Thuong Dien\Tang 6 - Pho Khong Den\Water\Ass2\Bao cao\Report.tex"
@@ -706,24 +706,24 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 
 [3] ("E:\Nha Thuong Dien\Tang 6 - Pho Khong Den\Water\Ass2\Bao cao\Report.lof")
 \tf@lof=\write4
-[4] [5]
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <9> on input line 143.
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 143.
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 143.
+[4] [5] <images/classStructrure.png, id=28, 414.04688pt x 295.85532pt>
+File: images/classStructrure.png Graphic file (type png)
 
- ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\omscmr.fd"
+<use images/classStructrure.png>
+Package pdftex.def Info: images/classStructrure.png used on input line 137.
+(pdftex.def)             Requested size: 207.02292pt x 147.92729pt.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 141.
+
+
+("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\omscmr.fd"
 File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
-LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <9> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 143.
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 163.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 141.
 File: Images/hcmut.pdf Graphic file (type pdf)
 
 <use Images/hcmut.pdf>
-Package pdftex.def Info: Images/hcmut.pdf used on input line 166.
+Package pdftex.def Info: Images/hcmut.pdf used on input line 156.
 (pdftex.def)             Requested size: 22.75414pt x 22.7569pt.
 
 
@@ -732,61 +732,75 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[6] <images/wallsmoothing.png, id=42, 587.3142pt x 504.9264pt>
+[6 <E:/Nha Thuong Dien/Tang 6 - Pho Khong Den/Water/Ass2/Bao cao/images/classSt
+ructrure.png>]
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <9> on input line 156.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <6> on input line 156.
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <9> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 156.
+ <images/wallsmoothing.png, id=38, 587.3142pt x 504.9264pt>
 File: images/wallsmoothing.png Graphic file (type png)
 
 <use images/wallsmoothing.png>
-Package pdftex.def Info: images/wallsmoothing.png used on input line 170.
+Package pdftex.def Info: images/wallsmoothing.png used on input line 183.
 (pdftex.def)             Requested size: 293.65637pt x 252.46259pt.
 File: Images/hcmut.pdf Graphic file (type pdf)
  <use Images/hcmut.pdf>
-Package pdftex.def Info: Images/hcmut.pdf used on input line 180.
+Package pdftex.def Info: Images/hcmut.pdf used on input line 186.
 (pdftex.def)             Requested size: 22.75414pt x 22.7569pt.
- [7 <E:/Nha Thuong Dien/Tang 6 - Pho Khong Den/Water/Ass2/Bao cao/images/wallsm
+ [7]
+File: Images/hcmut.pdf Graphic file (type pdf)
+
+<use Images/hcmut.pdf>
+Package pdftex.def Info: Images/hcmut.pdf used on input line 200.
+(pdftex.def)             Requested size: 22.75414pt x 22.7569pt.
+ [8 <E:/Nha Thuong Dien/Tang 6 - Pho Khong Den/Water/Ass2/Bao cao/images/wallsm
 oothing.png>]
-<images/wavesurfing_introduction.png, id=49, 615.2586pt x 357.4956pt>
+<images/wavesurfing_introduction.png, id=53, 615.2586pt x 357.4956pt>
 File: images/wavesurfing_introduction.png Graphic file (type png)
 
 <use images/wavesurfing_introduction.png>
 Package pdftex.def Info: images/wavesurfing_introduction.png used on input line
- 198.
+ 211.
 (pdftex.def)             Requested size: 307.62854pt x 178.74736pt.
 
-<images/segmentation.png, id=50, 492.8814pt x 340.6326pt>
+<images/segmentation.png, id=54, 492.8814pt x 340.6326pt>
 File: images/segmentation.png Graphic file (type png)
 
 <use images/segmentation.png>
-Package pdftex.def Info: images/segmentation.png used on input line 207.
+Package pdftex.def Info: images/segmentation.png used on input line 220.
 (pdftex.def)             Requested size: 246.4401pt x 170.31587pt.
 File: Images/hcmut.pdf Graphic file (type pdf)
  <use Images/hcmut.pdf>
-Package pdftex.def Info: Images/hcmut.pdf used on input line 209.
+Package pdftex.def Info: Images/hcmut.pdf used on input line 223.
 (pdftex.def)             Requested size: 22.75414pt x 22.7569pt.
- [8 <E:/Nha Thuong Dien/Tang 6 - Pho Khong Den/Water/Ass2/Bao cao/images/wavesu
+ [9 <E:/Nha Thuong Dien/Tang 6 - Pho Khong Den/Water/Ass2/Bao cao/images/wavesu
 rfing_introduction.png>]
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 210.
+(Font)              <8> on input line 223.
 File: Images/hcmut.pdf Graphic file (type pdf)
 
 <use Images/hcmut.pdf>
-Package pdftex.def Info: Images/hcmut.pdf used on input line 223.
+Package pdftex.def Info: Images/hcmut.pdf used on input line 238.
 (pdftex.def)             Requested size: 22.75414pt x 22.7569pt.
- [9 <E:/Nha Thuong Dien/Tang 6 - Pho Khong Den/Water/Ass2/Bao cao/images/segmen
-tation.png>]
+ [10 <E:/Nha Thuong Dien/Tang 6 - Pho Khong Den/Water/Ass2/Bao cao/images/segme
+ntation.png>]
 File: Images/hcmut.pdf Graphic file (type pdf)
  <use Images/hcmut.pdf>
-Package pdftex.def Info: Images/hcmut.pdf used on input line 256.
+Package pdftex.def Info: Images/hcmut.pdf used on input line 269.
 (pdftex.def)             Requested size: 22.75414pt x 22.7569pt.
- [10]
+ [11]
 ("E:\Nha Thuong Dien\Tang 6 - Pho Khong Den\Water\Ass2\Bao cao\Report.aux") ) 
 Here is how much of TeX's memory you used:
- 5219 strings out of 493921
- 66848 string characters out of 3144879
- 168114 words of memory out of 3000000
- 8427 multiletter control sequences out of 15000+200000
+ 5224 strings out of 493921
+ 66990 string characters out of 3144879
+ 166114 words of memory out of 3000000
+ 8431 multiletter control sequences out of 15000+200000
  24575 words of font info for 48 fonts, out of 3000000 for 9000
  841 hyphenation exceptions out of 8191
- 41i,25n,43p,1427b,1368s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 41i,26n,43p,1432b,1993s stack positions out of 5000i,500n,10000p,200000b,50000s
 <C
 :/Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/
 Program Files (x86)/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Pro
@@ -804,9 +818,9 @@ MiKTeX 2.9/fonts/type1/vntex/vnr/vnr7.pfb><C:/Program Files (x86)/MiKTeX 2.9/fo
 nts/type1/vntex/vnr/vnr8.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/vnt
 ex/vnr/vnr9.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/vntex/vnr/vnti10
 .pfb>
-Output written on Report.pdf (10 pages, 1013246 bytes).
+Output written on Report.pdf (11 pages, 1021363 bytes).
 PDF statistics:
- 117 PDF objects out of 1000 (max. 8388607)
+ 121 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 21 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 26 words of extra memory for PDF output out of 10000 (max. 10000000)
 

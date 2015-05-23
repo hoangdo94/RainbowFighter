@@ -130,12 +130,25 @@ This page intentionally left blank
 \section{Robocodde}
 \subsection{Giới thiệu}
 \subsection{Luật chơi}
+\section{Tổ chức Class}
+Chương trình được tổ chức rõ ràng với 04 class chính. Nhiệm vụ mỗi class được phân chia cụ thể và hợp lý.
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.5]{images/classStructrure.png}
+\caption{Tổ chức class}
+\end{figure}
+\begin{itemize}
+	\item \textbf{feederz\_spring2015}: class chính hiện thực robot. Ở đây chứa các hàm cơ bản mà hệ thống sẽ gọi trong suốt quá trình robot chạy
+	\item \textbf{WaveSurfing}: class hiện thực kỹ thuật Wave Surfing, chịu trách nhiệm tính toán và điều khiển đường đi của robot, né đạn và né tường
+	\item \textbf{GFTargeting}: class hiện thực kỹ thuật Guess Factor, chịu trách nhiệm tính toán và điều khiển súng của robot để nhắm chính xác mục tiêu
+	\item \textbf{Helpers} class chứa các hàm bổ trợ được sử dụng bởi các class trên
+\end{itemize}
 \section{Kỹ thuật Wall Smoothing}
 Theo luật của robocode, mỗi lần va chạm với tường robot cũng bị mất năng lượng giống như khi bị trúng đạn. Hơn nữa, nếu robot va chạm với tường và mắc kẹt ở một trong bốn góc của sân đấu thì khả năng bị tiêu diệt sớm lại càng cao hơn. Do vậy, để nâng cao khả năng sống còn của robot, việc đầu tiên cần nghĩ ngay tới đó là làm cho robot "né" được tường trong lúc chiến đấu, đừng để nó di chuyển vào những điểm chết hoặc những điểm quá gần tường.
 
 Đầu tiên ta thiết lập một vùng an toàn cho robot. Trong suốt trận đấu, ta cố gắng điều khiển cho robot di chuyển không vượt qua giới hạn của vùng này. Cụ thể, kích thước vùng này được quy định bởi một hình chữ nhật \textit{playingRectangle} như trong source code.
 \begin{lstlisting}[caption = Thiết lập vùng an toàn, frame = single]
-public static final int BATTLEFIELD_WIDTH = 800;
+public static final int BATTLEFIELD_WIDTH = 8100;
 public static final int BATTLEFIELD_HEIGHT = 600;
 static final int BOUNDARY_SIZE = 18;
 public static Rectangle2D.Double playingRectangle = new Rectangle2D.Double(
@@ -252,5 +265,5 @@ Như đã trình bày ở phần trước, mỗi lần phát hiện ra đối th
 Hiện tại ý tưởng né đạn vẫn là xác định xem viên đạn nào di chuyển đến gần robot nhất để né. Giải pháp này không hiệu quả bằng việc xem xét né viên đạn sẽ chạm robot trước thay vì viên gần nhất.
 
 
-\section{Kỹ thuật Dynamic Clustering}
+\section{Guess Factor}
 \end{document}
