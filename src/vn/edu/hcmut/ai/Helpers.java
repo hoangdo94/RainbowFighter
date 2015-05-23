@@ -17,9 +17,6 @@ final class Helpers {
 	public static double maxEscapeAngle(double velocity) {
 		return Math.asin(8.0 / velocity);
 	}
-	public static double getBulletVelocity(double power) {
-		return (20.0 - 3.0 * power);
-	}
 	public static Point2D.Double getPositionFromAngleAndDistance(Point2D.Double from,
 			double angle, double length) {
 		return new Point2D.Double(from.x + Math.sin(angle) * length,
@@ -48,14 +45,14 @@ final class Helpers {
 			robot.setAhead(100);
 		}
 	}
-	static Point2D project(Point2D sourceLocation, double angle, double length) {
-		return new Point2D.Double(sourceLocation.getX() + Math.sin(angle) * length,
-				sourceLocation.getY() + Math.cos(angle) * length);
-	}
+//	static Point2D project(Point2D sourceLocation, double angle, double length) {
+//		return new Point2D.Double(sourceLocation.getX() + Math.sin(angle) * length,
+//				sourceLocation.getY() + Math.cos(angle) * length);
+//	}
 	
-	static double absoluteBearing(Point2D source, Point2D target) {
-		return Math.atan2(target.getX() - source.getX(), target.getY() - source.getY());
-	}
+//	static double absoluteBearing(Point2D source, Point2D target) {
+//		return Math.atan2(target.getX() - source.getX(), target.getY() - source.getY());
+//	}
 
 	static int sign(double v) {
 		return v < 0 ? -1 : 1;

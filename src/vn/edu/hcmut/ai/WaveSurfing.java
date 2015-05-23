@@ -9,6 +9,7 @@ import robocode.Bullet;
 import robocode.BulletHitBulletEvent;
 import robocode.BulletHitEvent;
 import robocode.HitByBulletEvent;
+import robocode.Rules;
 import robocode.ScannedRobotEvent;
 import robocode.util.Utils;
 import sun.security.x509.DeltaCRLIndicatorExtension;
@@ -35,8 +36,6 @@ public class WaveSurfing {
 			BATTLEFIELD_WIDTH - BOUNDARY_SIZE * 2, BATTLEFIELD_HEIGHT
 					- BOUNDARY_SIZE * 2);
 	public final int MAX_PREDICTION_TICK_NUMBER = 800;
-	public final int MAX_SURFING_DISTANCE = 400;
-
 	public double hitTime = 0;
 
 	public WaveSurfing(AdvancedRobot robot) {
@@ -91,8 +90,8 @@ public class WaveSurfing {
 			if (Math.abs(deltaHitTime) >= 3) {
 				EnemyWave ew = new EnemyWave();
 				ew.fireTime = ourRobot.getTime() - BULLET_FIRING_TIME_DELTA;
-				ew.bulletVelocity = Helpers.getBulletVelocity(bulletPower);
-				ew.distanceTraveled = Helpers.getBulletVelocity(bulletPower);
+				ew.bulletVelocity = Rules.getBulletSpeed(bulletPower);
+				ew.distanceTraveled = Rules.getBulletSpeed(bulletPower);
 				ew.direction = ((Integer) directionArray.get(2)).intValue();
 				ew.directAngle = ((Double) absBearingsArray.get(2))
 						.doubleValue();
@@ -127,7 +126,7 @@ public class WaveSurfing {
 
 				if (Math.abs(ew.distanceTraveled
 						- ourRobotPosition.distance(ew.fireLocation)) < 50
-						&& Math.abs(Helpers.getBulletVelocity(e.getBullet()
+						&& Math.abs(Rules.getBulletSpeed(e.getBullet()
 								.getPower()) - ew.bulletVelocity) < 0.001) {
 					hitWave = ew;
 					break;
