@@ -14,14 +14,12 @@ public class feederz_spring2015 extends AdvancedRobot {
 			new Color(255, 255, 0), new Color(0, 255, 0), new Color(0, 0, 255),
 			new Color(75, 0, 130), new Color(143, 0, 255) };
 	static int colorNum = -1;
-	
 	WaveSurfing waveSurfing = new WaveSurfing(this);
 	GFTargeting gunController = new GFTargeting(this);
 
 	public void initializeRobot() {
 		setAdjustRadarForGunTurn(true);
 		setAdjustRadarForRobotTurn(true);
-		//gunController.init();
 		setMaxVelocity(8);
 	}
 	
@@ -61,8 +59,6 @@ public class feederz_spring2015 extends AdvancedRobot {
 
 	public void onScannedRobot(ScannedRobotEvent e) {
 		waveSurfing.updateData(e);
-		//gunController.updateData();
-		//gunController.setTurnAndFire();
 		gunController.updateData(e);
 		controllRadar(e);
 		controllRobot();
@@ -78,11 +74,6 @@ public class feederz_spring2015 extends AdvancedRobot {
 	}
 	
 	public void onBulletHit(BulletHitEvent e) {
-		//gunController.hitCount++;
 		waveSurfing.onBulletHit(e);
-	}
-	
-	public void onRoundEnded(RoundEndedEvent event) {
-		//gunController.cleanUp();
 	}
 }

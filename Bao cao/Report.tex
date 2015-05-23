@@ -220,7 +220,7 @@ Mỗi khi robot bị trúng đạn, thông tin của viên đạn được truy 
 \includegraphics[scale=0.5]{images/segmentation.png}
 \caption{Phân hoạch vùng nguy hiểm}
 \end{figure}
-Theo đó ứng với mỗi EnemyWave, hoặc nói theo cách khác là ứng với mỗi viên đạn được bắn ra, chúng ta sẽ xác định được một góc bắn như hình vẽ. Góc này có độ lớn bằng 2 lần góc maxEscapeAnlge\footnote{Là góc lớn nhất mà robot có thể di chuyển được trong một đơn vị thời gian - một tick. Việc giới hạn này là hợp lý vì mọi góc nằm ngoài khoảng này là không cần xem xét vì robot không thể nào di chuyển tới đó được} và được chia ra thành những phần bằng nhau được gọi là BIN. Trong chương trình sử dụng 47 BIN còn trong hình minh họa thì chia ra được 4 BIN. Một BIN được đánh dấu là nguy hiểm nếu như robot bị trúng đạn khi đang di chuyển trong BIN đó. Chẳng hạn như trong hình vẽ, tại thời điểm $t_0$ robot đang ở vị trí $P_0$ và nhận thấy đối thủ bắn ra viên đạn tại ví trí $P$. Cho đến thời điểm $t_1$ robot bị viên đạn đó đụng phải tại vị trí $P_1$ - thuộc BIN thứ 4. BIN này được tô đỏ trong hình vẽ và nghĩa là trong tương lai, nếu gặp trường hợp tương tự như vậy, robot sẽ hạn chế di chuyển vào BIN này. Tất cả các bị này được tổ chức và lưu trong biến statArray[].
+Theo đó ứng với mỗi EnemyWave, hoặc nói theo cách khác là ứng với mỗi viên đạn được bắn ra, chúng ta sẽ xác định được một góc bắn như hình vẽ. Góc này có độ lớn bằng 2 lần góc maxEscapeAngle\footnote{Là góc lớn nhất mà robot có thể di chuyển được trong một đơn vị thời gian - một tick. Việc giới hạn này là hợp lý vì mọi góc nằm ngoài khoảng này là không cần xem xét vì robot không thể nào di chuyển tới đó được} và được chia ra thành những phần bằng nhau được gọi là BIN. Trong chương trình sử dụng 47 BIN còn trong hình minh họa thì chia ra được 4 BIN. Một BIN được đánh dấu là nguy hiểm nếu như robot bị trúng đạn khi đang di chuyển trong BIN đó. Chẳng hạn như trong hình vẽ, tại thời điểm $t_0$ robot đang ở vị trí $P_0$ và nhận thấy đối thủ bắn ra viên đạn tại ví trí $P$. Cho đến thời điểm $t_1$ robot bị viên đạn đó đụng phải tại vị trí $P_1$ - thuộc BIN thứ 4. BIN này được tô đỏ trong hình vẽ và nghĩa là trong tương lai, nếu gặp trường hợp tương tự như vậy, robot sẽ hạn chế di chuyển vào BIN này. Tất cả các BIN này được tổ chức và lưu trong biến statArray[].
 
 Theo cách đánh dấu như vậy, càng về sau, sự phân hoạch vùng nguy hiểm này sẽ càng chính xác, và robot sẽ học được chiến lược bắn đạn của đối phương để tìm đường đi an toàn cho mình.
 \subsection{Kiểm tra mức nguy hiểm}
@@ -265,5 +265,94 @@ Như đã trình bày ở phần trước, mỗi lần phát hiện ra đối th
 Hiện tại ý tưởng né đạn vẫn là xác định xem viên đạn nào di chuyển đến gần robot nhất để né. Giải pháp này không hiệu quả bằng việc xem xét né viên đạn sẽ chạm robot trước thay vì viên gần nhất.
 
 
-\section{Guess Factor}
+\section{Kỹ thuật Guess Factor Targeting}
+\subsection{Giới thiệu}
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.5]{images/GuessFactors.png}
+\caption{Guess Factor Targeting}
+\end{figure}
+Guess Factor Targeting là 1 kỹ thuật ngắm bắn khá đơn giản nhưng cũng không kém phần hữu hiệu được sử dụng trong robocode.
+Về cơ bản, vào thời điểm bắn, ta xác định khoảng khu vực mà mục tiêu có thể di chuyển đến, chia chúng ra làm nhiều phần gọi là các BIN \footnote{GuessFactor 0.0 (BIN ở giữa) trỏ trực tiếp tới hướng mục tiêu, GuessFactor 1.0 (BIN đầu tiên) trỏ tới vị trí xa nhất mà mục tiêu có thể tới nếu giữ nguyên hướng di chuyển hiện tại và GuessFactor -1.0 (BIN cuối cùng) trỏ tới vị trí xa nhất mà mục tiêu có thể tới nếu đổi hướng di chuyển}, sau đó dựa vào các thông tin thu thập được từ trước để xác định bắn vào BIN nào có khả năng cao nhất trúng mục tiêu.
+Guess Factor Targeting có một số nét tương đồng với WaveSurfing mặc dù 1 kỹ thuật dùng vào việc di chuyển, 1 kỹ thuật dùng vào việc ngắm bắn.
+\subsection{Trừu tượng hóa thông tin đạn bắn}
+Nếu như ở phần WaveSurfing phía trên, đối tượng EnemyWave được dùng để thu thập thông tin các viên đạn bắn ra của đối phương thì ở đây, chúng ta dùng đối tượng BulletWave để đóng gói thông tin về các viên đạn được bắn ra của chính robot của mình, bao gồm:
+	\begin{itemize}
+		\item targetLocation: vị trí của mục tiêu ở thời điểm viên đạn được bắn ra.
+		\item bulletPower: mức năng lượng của viên đạn
+		\item gunLocation: vị trí của súng (cụ thể là vị trí của robot) lúc bắn đạn.
+		\item bearing: ....
+		\item lateralDirection: hướng di chuyển của mục tiêu (theo chiều vuông góc với robot)
+		\item distanceTraveled: khoảng cách mà viên đạn đã di chuyển (cập nhật theo từng tick)
+		\item robot: robot
+		\item statBuffers: chứa kết quả thống kê của các BIN
+	\end{itemize}
+\subsection{Phân hoạch phạm vi bắn}
+Như đã nói ở trên, ta chia phạm vi mà mục tiêu có thể đến thành nhiều BIN và chọn 1 BIN mà ta thấy có xác suất bắn trúng cao nhất để ngắm bắn.
+Mỗi khi bắn trúng mục tiêu, thông tin của viên đạn được truy xuất để phục vụ cho việc phân hoạch vùng bắn. Việc phân hoạch này có thể dựa trên nhiều yếu tố, trong bài tập lớn này, nhóm sử dụng các yếu tố distance (khoảng cách đến mục tiêu), velocity (vận tốc hiện tại của mục tiêu) và lastVelocity (vận tốc của mục tiêu ngay trước thời điểm hiện tại) để phân hoạch.
+\begin{lstlisting}[caption = Phân hoạch, frame = single]
+void setSegmentations(double distance, double velocity, double lastVelocity) {
+	int distanceIndex = (int)(distance / (MAX_DISTANCE / DISTANCE_INDEXES));
+	int velocityIndex = (int)Math.abs(velocity / 2);
+	int lastVelocityIndex = (int)Math.abs(lastVelocity / 2);
+	buffer = statBuffers[distanceIndex][velocityIndex][lastVelocityIndex];
+}
+\end{lstlisting}
+Cụ thể, phạm vi mà mục tiêu có thể di chuyển đến được xác định dựa vào maximum escape angle (khác với maxEscapeAngle ở phần WaveSurfing, ở đây chỉ khoảng tối đa mà mục tiêu có thể tới được tính từ lúc bắn đến lúc viên đạn bay tới đích, giá trị này phụ thuộc vào nhiều yếu tố, để cho đơn giản, trong bài tập lớn này nhóm gán cho nó giá trị cụ thể là 0.8). Phạm vi này được chia thành 25 BIN. mỗi lần viên đạn tới đúng mục tiêu, dựa vào thông tin viên đạn bắn ra, ta sẽ truy xuất vào statsBuffer tới BIN tương ứng và tăng giá trị của nó. 
+\begin{lstlisting}[caption = test, frame = single]
+public boolean test() {
+	advance();
+	if (hasArrived()) {
+		buffer[currentBin()]++;
+		robot.removeCustomEvent(this);
+	}
+	return false;
+}
+\end{lstlisting}
+Như vậy, trong tương lai, nếu gặp hoàn cảnh tương tự (về khoảng cách tới mục tiêu, vận tốc...) thì bắn vào BIN này có khả năng trúng mục tiêu cao hơn các BIN khác.
+
+Theo cách đánh dấu như vậy, càng về sau, sự phân hoạch này sẽ càng chính xác, và robot sẽ học được chiến lược di chuyển của đối phương để tìm ra góc bắn thích hợp nhất.
+\subsection{Chọn góc bắn phù hợp và bắn}
+Dựa vào các kết quả thống kê thu thập được, tại mỗi thời điểm chuẩn bị bắn, ta sẽ truy xuất vào statsBuffer và chọn ra BIN tốt nhất để bắn
+\begin{lstlisting}[caption = mostVisitedBin, frame = single]
+private int mostVisitedBin() {
+	int mostVisited = MIDDLE_BIN;
+	for (int i = 0; i < BINS; i++) {
+		if (buffer[i] > buffer[mostVisited]) {
+			mostVisited = i;
+		}
+	}
+	return mostVisited;
+}	
+\end{lstlisting}
+Dựa vào mostVisited BIN, ta có thể tính được Bearing offset phù hợp
+\begin{lstlisting}[caption = mostVisitedBearingOffset, frame = single]
+double mostVisitedBearingOffset() {
+	return (lateralDirection * BIN_WIDTH) * (mostVisitedBin() - MIDDLE_BIN);
+}
+\end{lstlisting}
+Sau đó, ta tính toán bulletPower phù hợp và ngắm bắn. bulletPower được tính dựa trên khoảng cách tới mục tiêu, energy còn lại của robot.
+\begin{lstlisting}[caption = tính bulletPower, frame = single]
+public double calcBulletPower(ScannedRobotEvent e) {
+	double bulletPower = 0;
+	bulletPower = e.getDistance() > 150 ? 1.9 : 3;
+	bulletPower = Math.min(bulletPower, (e.getEnergy() + .1) / 4);
+	if (bulletPower * 6 >= robot.getEnergy()) bulletPower = robot.getEnergy() / 6;
+	if (bulletPower >= robot.getEnergy() - .1) bulletPower = robot.getEnergy() - .1;
+	bulletPower = Math.max(Rules.MIN_BULLET_POWER, Math.min(Rules.MAX_BULLET_POWER, bulletPower));
+	if (robot.getEnergy() < 10.0) bulletPower = 0.1;
+	return bulletPower;
+}
+\end{lstlisting}
+\begin{lstlisting}[caption = ngắm bắn, frame = single]
+	robot.setTurnGunRightRadians(Utils.normalRelativeAngle(enemyAbsoluteBearing - robot.getGunHeadingRadians() + wave.mostVisitedBearingOffset()));
+	robot.setFire(wave.bulletPower);
+\end{lstlisting}
+
+\section{JAVA Doc}
+
+\section{Tham khảo}
+http://www.ibm.com/developerworks/library/j-robotips/index.html
+Robowiki.net
+
 \end{document}

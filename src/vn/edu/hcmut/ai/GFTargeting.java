@@ -32,9 +32,9 @@ public class GFTargeting {
 		wave.setSegmentations(enemyDistance, enemyVelocity, lastEnemyVelocity);
 		lastEnemyVelocity = enemyVelocity;
 		wave.bearing = enemyAbsoluteBearing;
-		robot.setTurnGunRightRadians(Utils.normalRelativeAngle(enemyAbsoluteBearing - robot.getGunHeadingRadians() + wave.mostVisitedBearingOffset()));
-		robot.setFire(wave.bulletPower);
 		if (robot.getEnergy() >= wave.bulletPower) {
+			robot.setTurnGunRightRadians(Utils.normalRelativeAngle(enemyAbsoluteBearing - robot.getGunHeadingRadians() + wave.mostVisitedBearingOffset()));
+			robot.setFire(wave.bulletPower);
 			robot.addCustomEvent(wave);
 		}
 		robot.setTurnRadarRightRadians(Utils.normalRelativeAngle(enemyAbsoluteBearing - robot.getRadarHeadingRadians()) * 2);
@@ -59,20 +59,21 @@ class BulletWave extends Condition {
 	Point2D gunLocation;
 	double bearing;
 	double lateralDirection;
+	
+	private AdvancedRobot robot;
+	private double distanceTraveled;
+	private int[] buffer;
 
 	private static final double MAX_DISTANCE = 900;
 	private static final int DISTANCE_INDEXES = 5;
 	private static final int VELOCITY_INDEXES = 5;
 	private static final int BINS = 25;
-	private static final int MIDDLE_BIN = (BINS - 1) / 2;
-	private static final double MAX_ESCAPE_ANGLE = 0.7;
+	private static final int MIDDLE_BIN = 13;
+	private static final double MAX_ESCAPE_ANGLE = 0.8;
 	private static final double BIN_WIDTH = MAX_ESCAPE_ANGLE / (double)MIDDLE_BIN;
 	
 	private static int[][][][] statBuffers = new int[DISTANCE_INDEXES][VELOCITY_INDEXES][VELOCITY_INDEXES][BINS];
-
-	private int[] buffer;
-	private AdvancedRobot robot;
-	private double distanceTraveled;
+	
 	
 	BulletWave(AdvancedRobot _robot) {
 		this.robot = _robot;
@@ -81,6 +82,7 @@ class BulletWave extends Condition {
 	public boolean test() {
 		advance();
 		if (hasArrived()) {
+			robot.out.println("a");
 			buffer[currentBin()]++;
 			robot.removeCustomEvent(this);
 		}
