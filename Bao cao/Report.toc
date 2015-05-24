@@ -24,6 +24,11 @@
 \contentsline {subsubsection}{\numberline {6.2.1}Th\IeC {\^o}ng tin c\IeC {\'a}c thu\IeC {\d \ocircumflex }c t\IeC {\'\i }nh}{14}
 \contentsline {subsubsection}{\numberline {6.2.2}Th\IeC {\^o}ng tin c\IeC {\'a}c h\IeC {\`a}m}{14}
 \contentsline {subsection}{\numberline {6.3}Class GFTargeting}{17}
-\contentsline {subsection}{\numberline {6.4}Class Helpers}{17}
-\contentsline {subsubsection}{\numberline {6.4.1}Th\IeC {\^o}ng tin c\IeC {\'a}c h\IeC {\`a}m}{17}
-\contentsline {section}{\numberline {7}Tham kh\IeC {\h a}o}{19}
+\contentsline {subsubsection}{\numberline {6.3.1}Th\IeC {\^o}ng tin c\IeC {\'a}c thu\IeC {\d \ocircumflex }c t\IeC {\'\i }nh}{17}
+\contentsline {subsubsection}{\numberline {6.3.2}Th\IeC {\^o}ng tin c\IeC {\'a}c h\IeC {\`a}m}{17}
+\contentsline {subsection}{\numberline {6.4}Class BulletWave (H\IeC {\~\ocircumflex } tr\IeC {\d \ohorn } cho class GFTargeting)}{18}
+\contentsline {subsubsection}{\numberline {6.4.1}Th\IeC {\^o}ng tin c\IeC {\'a}c thu\IeC {\d \ocircumflex }c t\IeC {\'\i }nh}{18}
+\contentsline {subsubsection}{\numberline {6.4.2}Th\IeC {\^o}ng tin c\IeC {\'a}c h\IeC {\`a}m}{18}
+\contentsline {subsection}{\numberline {6.5}Class Helpers}{19}
+\contentsline {subsubsection}{\numberline {6.5.1}Th\IeC {\^o}ng tin c\IeC {\'a}c h\IeC {\`a}m}{19}
+\contentsline {section}{\numberline {7}Tham kh\IeC {\h a}o}{21}
