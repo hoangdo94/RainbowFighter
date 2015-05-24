@@ -1,15 +1,15 @@
-\contentsline {section}{\numberline {1}Robocodde}{4}
+\contentsline {section}{\numberline {1}Robocode}{4}
 \contentsline {subsection}{\numberline {1.1}Gi\IeC {\'\ohorn }i thi\IeC {\d \ecircumflex }u}{4}
-\contentsline {subsection}{\numberline {1.2}Lu\IeC {\d \acircumflex }t ch\IeC {\ohorn }i}{4}
+\contentsline {subsection}{\numberline {1.2}S\IeC {\ohorn } l\IeC {\uhorn }\IeC {\d \ohorn }c v\IeC {\`\ecircumflex } robot c\IeC {\h u}a nh\IeC {\'o}m (Feederz)}{4}
 \contentsline {section}{\numberline {2}T\IeC {\h \ocircumflex } ch\IeC {\'\uhorn }c Class}{4}
-\contentsline {section}{\numberline {3}K\IeC {\~y} thu\IeC {\d \acircumflex }t Wall Smoothing}{4}
+\contentsline {section}{\numberline {3}K\IeC {\~y} thu\IeC {\d \acircumflex }t Wall Smoothing}{5}
 \contentsline {section}{\numberline {4}K\IeC {\~y} thu\IeC {\d \acircumflex }t Wave Surfing}{6}
 \contentsline {subsection}{\numberline {4.1}Gi\IeC {\'\ohorn }i thi\IeC {\d \ecircumflex }u}{6}
-\contentsline {subsection}{\numberline {4.2}Tr\IeC {\`\uhorn }u t\IeC {\uhorn }\IeC {\d \ohorn }ng h\IeC {\'o}a th\IeC {\^o}ng tin \IeC {\dj }\IeC {\d a}n b\IeC {\'\abreve }n}{6}
+\contentsline {subsection}{\numberline {4.2}Tr\IeC {\`\uhorn }u t\IeC {\uhorn }\IeC {\d \ohorn }ng h\IeC {\'o}a th\IeC {\^o}ng tin \IeC {\dj }\IeC {\d a}n b\IeC {\'\abreve }n}{7}
 \contentsline {subsection}{\numberline {4.3}Nh\IeC {\d \acircumflex }n bi\IeC {\'\ecircumflex }t th\IeC {\`\ohorn }i \IeC {\dj }i\IeC {\h \ecircumflex }m b\IeC {\'\abreve }n \IeC {\dj }\IeC {\d a}n}{7}
-\contentsline {subsection}{\numberline {4.4}Ph\IeC {\^a}n chia ph\IeC {\d a}m vi nguy hi\IeC {\h \ecircumflex }m}{7}
+\contentsline {subsection}{\numberline {4.4}Ph\IeC {\^a}n chia ph\IeC {\d a}m vi nguy hi\IeC {\h \ecircumflex }m}{8}
 \contentsline {subsection}{\numberline {4.5}Ki\IeC {\h \ecircumflex }m tra m\IeC {\'\uhorn }c nguy hi\IeC {\h \ecircumflex }m}{8}
-\contentsline {subsection}{\numberline {4.6}Ch\IeC {\d o}n h\IeC {\uhorn }\IeC {\'\ohorn }ng \IeC {\dj }i an to\IeC {\`a}n}{8}
+\contentsline {subsection}{\numberline {4.6}Ch\IeC {\d o}n h\IeC {\uhorn }\IeC {\'\ohorn }ng \IeC {\dj }i an to\IeC {\`a}n}{9}
 \contentsline {subsection}{\numberline {4.7}Nh\IeC {\~\uhorn }ng bi\IeC {\d \ecircumflex }n ph\IeC {\'a}p c\IeC {\h a}i ti\IeC {\'\ecircumflex }n}{9}
 \contentsline {section}{\numberline {5}K\IeC {\~y} thu\IeC {\d \acircumflex }t Guess Factor Targeting}{10}
 \contentsline {subsection}{\numberline {5.1}Gi\IeC {\'\ohorn }i thi\IeC {\d \ecircumflex }u}{10}

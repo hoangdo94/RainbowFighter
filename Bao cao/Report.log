@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9) (preloaded format=pdflatex 2015.1.24)  24 MAY 2015 09:54
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (MiKTeX 2.9) (preloaded format=pdflatex 2015.1.24)  24 MAY 2015 17:49
 entering extended mode
 **Report.tex
 ("E:\RainbowFighter\Bao cao\Report.tex"
@@ -710,20 +710,20 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 File: images/classStructrure.png Graphic file (type png)
 
 <use images/classStructrure.png>
-Package pdftex.def Info: images/classStructrure.png used on input line 138.
+Package pdftex.def Info: images/classStructrure.png used on input line 145.
 (pdftex.def)             Requested size: 207.02292pt x 147.92729pt.
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 142.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 149.
 
 
 ("C:\Program Files (x86)\MiKTeX 2.9\tex\latex\base\omscmr.fd"
 File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 142.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 149.
 File: Images/hcmut.pdf Graphic file (type pdf)
 
 <use Images/hcmut.pdf>
-Package pdftex.def Info: Images/hcmut.pdf used on input line 157.
+Package pdftex.def Info: Images/hcmut.pdf used on input line 150.
 (pdftex.def)             Requested size: 22.75414pt x 22.7569pt.
 
 
@@ -734,147 +734,146 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 
 [4 <E:/RainbowFighter/Bao cao/images/classStructrure.png>]
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <9> on input line 157.
+(Font)              <9> on input line 164.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <6> on input line 157.
+(Font)              <6> on input line 164.
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <9> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 157.
-
-<images/wallsmoothing.png, id=32, 587.3142pt x 504.9264pt>
-File: images/wallsmoothing.png Graphic file (type png)
-
-<use images/wallsmoothing.png>
-Package pdftex.def Info: images/wallsmoothing.png used on input line 184.
-(pdftex.def)             Requested size: 293.65637pt x 252.46259pt.
-File: Images/hcmut.pdf Graphic file (type pdf)
- <use Images/hcmut.pdf>
-Package pdftex.def Info: Images/hcmut.pdf used on input line 187.
-(pdftex.def)             Requested size: 22.75414pt x 22.7569pt.
- [5]
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 164.
 File: Images/hcmut.pdf Graphic file (type pdf)
 
 <use Images/hcmut.pdf>
-Package pdftex.def Info: Images/hcmut.pdf used on input line 201.
+Package pdftex.def Info: Images/hcmut.pdf used on input line 186.
 (pdftex.def)             Requested size: 22.75414pt x 22.7569pt.
- [6 <E:/RainbowFighter/Bao cao/images/wallsmoothing.png>] <images/wavesurfing_i
-ntroduction.png, id=46, 615.2586pt x 357.4956pt>
+ [5]
+<images/wallsmoothing.png, id=37, 587.3142pt x 504.9264pt>
+File: images/wallsmoothing.png Graphic file (type png)
+
+<use images/wallsmoothing.png>
+Package pdftex.def Info: images/wallsmoothing.png used on input line 191.
+(pdftex.def)             Requested size: 293.65637pt x 252.46259pt.
+File: Images/hcmut.pdf Graphic file (type pdf)
+ <use Images/hcmut.pdf>
+Package pdftex.def Info: Images/hcmut.pdf used on input line 200.
+(pdftex.def)             Requested size: 22.75414pt x 22.7569pt.
+ [6 <E:/RainbowFighter/Bao cao/images/wallsmoothing.png>]
+<images/wavesurfing_introduction.png, id=46, 615.2586pt x 357.4956pt>
 File: images/wavesurfing_introduction.png Graphic file (type png)
 
 <use images/wavesurfing_introduction.png>
 Package pdftex.def Info: images/wavesurfing_introduction.png used on input line
- 212.
+ 219.
 (pdftex.def)             Requested size: 307.62854pt x 178.74736pt.
 
 <images/segmentation.png, id=47, 492.8814pt x 340.6326pt>
 File: images/segmentation.png Graphic file (type png)
 
 <use images/segmentation.png>
-Package pdftex.def Info: images/segmentation.png used on input line 221.
+Package pdftex.def Info: images/segmentation.png used on input line 228.
 (pdftex.def)             Requested size: 246.4401pt x 170.31587pt.
 File: Images/hcmut.pdf Graphic file (type pdf)
  <use Images/hcmut.pdf>
-Package pdftex.def Info: Images/hcmut.pdf used on input line 224.
+Package pdftex.def Info: Images/hcmut.pdf used on input line 230.
 (pdftex.def)             Requested size: 22.75414pt x 22.7569pt.
  [7 <E:/RainbowFighter/Bao cao/images/wavesurfing_introduction.png>]
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <8> on input line 224.
+(Font)              <8> on input line 231.
 File: Images/hcmut.pdf Graphic file (type pdf)
  <use Images/hcmut.pdf>
-Package pdftex.def Info: Images/hcmut.pdf used on input line 239.
+Package pdftex.def Info: Images/hcmut.pdf used on input line 244.
 (pdftex.def)             Requested size: 22.75414pt x 22.7569pt.
  [8 <E:/RainbowFighter/Bao cao/images/segmentation.png>]
 <images/GuessFactors.png, id=59, 302.63063pt x 254.45062pt>
 File: images/GuessFactors.png Graphic file (type png)
 
 <use images/GuessFactors.png>
-Package pdftex.def Info: images/GuessFactors.png used on input line 271.
+Package pdftex.def Info: images/GuessFactors.png used on input line 278.
 (pdftex.def)             Requested size: 151.31494pt x 127.22499pt.
 File: Images/hcmut.pdf Graphic file (type pdf)
  <use Images/hcmut.pdf>
-Package pdftex.def Info: Images/hcmut.pdf used on input line 274.
+Package pdftex.def Info: Images/hcmut.pdf used on input line 281.
 (pdftex.def)             Requested size: 22.75414pt x 22.7569pt.
  [9]
 File: Images/hcmut.pdf Graphic file (type pdf)
 
 <use Images/hcmut.pdf>
-Package pdftex.def Info: Images/hcmut.pdf used on input line 292.
+Package pdftex.def Info: Images/hcmut.pdf used on input line 299.
 (pdftex.def)             Requested size: 22.75414pt x 22.7569pt.
  [10 <E:/RainbowFighter/Bao cao/images/GuessFactors.png>]
 File: Images/hcmut.pdf Graphic file (type pdf)
 <use Images/hcmut.pdf>
-Package pdftex.def Info: Images/hcmut.pdf used on input line 328.
+Package pdftex.def Info: Images/hcmut.pdf used on input line 335.
 (pdftex.def)             Requested size: 22.75414pt x 22.7569pt.
  [11]
-Overfull \hbox (3.27238pt too wide) in paragraph at lines 358--364
+Overfull \hbox (3.27238pt too wide) in paragraph at lines 364--370
 [] 
  []
 
 File: Images/hcmut.pdf Graphic file (type pdf)
 <use Images/hcmut.pdf>
-Package pdftex.def Info: Images/hcmut.pdf used on input line 374.
+Package pdftex.def Info: Images/hcmut.pdf used on input line 381.
 (pdftex.def)             Requested size: 22.75414pt x 22.7569pt.
  [12]
-Underfull \hbox (badness 10000) in paragraph at lines 396--408
+Underfull \hbox (badness 10000) in paragraph at lines 402--414
 
  []
 
 
-Overfull \hbox (2.67267pt too wide) in paragraph at lines 410--429
+Overfull \hbox (2.67267pt too wide) in paragraph at lines 416--435
 [] 
  []
 
 File: Images/hcmut.pdf Graphic file (type pdf)
 <use Images/hcmut.pdf>
-Package pdftex.def Info: Images/hcmut.pdf used on input line 430.
+Package pdftex.def Info: Images/hcmut.pdf used on input line 436.
 (pdftex.def)             Requested size: 22.75414pt x 22.7569pt.
  [13]
 File: Images/hcmut.pdf Graphic file (type pdf)
  <use Images/hcmut.pdf>
-Package pdftex.def Info: Images/hcmut.pdf used on input line 447.
+Package pdftex.def Info: Images/hcmut.pdf used on input line 453.
 (pdftex.def)             Requested size: 22.75414pt x 22.7569pt.
  [14]
 File: Images/hcmut.pdf Graphic file (type pdf)
  <use Images/hcmut.pdf>
-Package pdftex.def Info: Images/hcmut.pdf used on input line 506.
+Package pdftex.def Info: Images/hcmut.pdf used on input line 512.
 (pdftex.def)             Requested size: 22.75414pt x 22.7569pt.
 
 [15]
 File: Images/hcmut.pdf Graphic file (type pdf)
  <use Images/hcmut.pdf>
-Package pdftex.def Info: Images/hcmut.pdf used on input line 559.
+Package pdftex.def Info: Images/hcmut.pdf used on input line 565.
 (pdftex.def)             Requested size: 22.75414pt x 22.7569pt.
  [16]
-Underfull \hbox (badness 10000) in paragraph at lines 582--583
+Underfull \hbox (badness 10000) in paragraph at lines 588--589
 
  []
 
 File: Images/hcmut.pdf Graphic file (type pdf)
 <use Images/hcmut.pdf>
-Package pdftex.def Info: Images/hcmut.pdf used on input line 605.
+Package pdftex.def Info: Images/hcmut.pdf used on input line 611.
 (pdftex.def)             Requested size: 22.75414pt x 22.7569pt.
  [17]
 File: Images/hcmut.pdf Graphic file (type pdf)
  <use Images/hcmut.pdf>
-Package pdftex.def Info: Images/hcmut.pdf used on input line 632.
+Package pdftex.def Info: Images/hcmut.pdf used on input line 638.
 (pdftex.def)             Requested size: 22.75414pt x 22.7569pt.
  [18]
-Underfull \hbox (badness 10000) in paragraph at lines 663--664
+Underfull \hbox (badness 10000) in paragraph at lines 669--670
 
  []
 
 File: Images/hcmut.pdf Graphic file (type pdf)
 <use Images/hcmut.pdf>
-Package pdftex.def Info: Images/hcmut.pdf used on input line 686.
+Package pdftex.def Info: Images/hcmut.pdf used on input line 692.
 (pdftex.def)             Requested size: 22.75414pt x 22.7569pt.
  [19]
 File: Images/hcmut.pdf Graphic file (type pdf)
  <use Images/hcmut.pdf>
-Package pdftex.def Info: Images/hcmut.pdf used on input line 738.
+Package pdftex.def Info: Images/hcmut.pdf used on input line 744.
 (pdftex.def)             Requested size: 22.75414pt x 22.7569pt.
  [20]
 File: Images/hcmut.pdf Graphic file (type pdf)
  <use Images/hcmut.pdf>
-Package pdftex.def Info: Images/hcmut.pdf used on input line 739.
+Package pdftex.def Info: Images/hcmut.pdf used on input line 745.
 (pdftex.def)             Requested size: 22.75414pt x 22.7569pt.
 
 [21] ("E:\RainbowFighter\Bao cao\Report.aux") ) 
@@ -885,7 +884,7 @@ Here is how much of TeX's memory you used:
  8481 multiletter control sequences out of 15000+200000
  24575 words of font info for 48 fonts, out of 3000000 for 9000
  841 hyphenation exceptions out of 8191
- 41i,26n,43p,1432b,1993s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 41i,26n,43p,2451b,1177s stack positions out of 5000i,500n,10000p,200000b,50000s
 <C:/Program Files (x86)/MiKTeX 2
 .9/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Program Files (x86)/MiKTeX 2.9
 /fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Program Files (x86)/MiKTeX 2.9/fo
@@ -902,7 +901,7 @@ type1/vntex/vnr/vnr6.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/vntex/v
 nr/vnr7.pfb><C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/vntex/vnr/vnr8.pfb><
 C:/Program Files (x86)/MiKTeX 2.9/fonts/type1/vntex/vnr/vnr9.pfb><C:/Program Fi
 les (x86)/MiKTeX 2.9/fonts/type1/vntex/vnr/vnti10.pfb>
-Output written on Report.pdf (21 pages, 1144731 bytes).
+Output written on Report.pdf (21 pages, 1147584 bytes).
 PDF statistics:
  155 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
