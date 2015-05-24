@@ -47,7 +47,6 @@ public class GFTargeting {
 		if (bulletPower * 6 >= robot.getEnergy()) bulletPower = robot.getEnergy() / 6;
 		if (bulletPower >= robot.getEnergy() - .1) bulletPower = robot.getEnergy() - .1;
 		bulletPower = Math.max(Rules.MIN_BULLET_POWER, Math.min(Rules.MAX_BULLET_POWER, bulletPower));
-		if (robot.getEnergy() < 10.0) bulletPower = 0.1;
 		return bulletPower;
 	}
 }
@@ -79,8 +78,15 @@ class BulletWave extends Condition {
 		this.robot = _robot;
 	}
 	
+	void setSegmentations(double distance, double velocity, double lastVelocity) {
+		int distanceIndex = (int)(distance / (MAX_DISTANCE / DISTANCE_INDEXES));
+		int velocityIndex = (int)Math.abs(velocity / 2);
+		int lastVelocityIndex = (int)Math.abs(lastVelocity / 2);
+		buffer = statBuffers[distanceIndex][velocityIndex][lastVelocityIndex];
+	}
+	
 	public boolean test() {
-		advance();
+		updateDistance();
 		if (hasArrived()) {
 			buffer[currentBin()]++;
 			robot.removeCustomEvent(this);
@@ -88,18 +94,7 @@ class BulletWave extends Condition {
 		return false;
 	}
 
-	double mostVisitedBearingOffset() {
-		return (lateralDirection * BIN_WIDTH) * (mostVisitedBin() - MIDDLE_BIN);
-	}
-	
-	void setSegmentations(double distance, double velocity, double lastVelocity) {
-		int distanceIndex = (int)(distance / (MAX_DISTANCE / DISTANCE_INDEXES));
-		int velocityIndex = (int)Math.abs(velocity / 2);
-		int lastVelocityIndex = (int)Math.abs(lastVelocity / 2);
-		buffer = statBuffers[distanceIndex][velocityIndex][lastVelocityIndex];
-	}
-
-	private void advance() {
+	private void updateDistance() {
 		distanceTraveled += Rules.getBulletSpeed(bulletPower);
 	}
 
@@ -108,9 +103,9 @@ class BulletWave extends Condition {
 	}
 	
 	private int currentBin() {
-		int bin = (int)Math.round(((Utils.normalRelativeAngle(Helpers.absoluteBearing(gunLocation, targetLocation) - bearing)) /
+		int bin = (int)Math.round(((Utils.normalRelativeAngle(Helpers.getAbsoluteBearingAngle((Point2D.Double)gunLocation, (Point2D.Double)targetLocation) - bearing)) /
 				(lateralDirection * BIN_WIDTH)) + MIDDLE_BIN);
-		return Helpers.minMax(bin, 0, BINS - 1);
+		return Math.max(0, Math.min(BINS - 1, bin));
 	}
 	
 	private int mostVisitedBin() {
@@ -122,4 +117,8 @@ class BulletWave extends Condition {
 		}
 		return mostVisited;
 	}	
+	
+	double mostVisitedBearingOffset() {
+		return (lateralDirection * BIN_WIDTH) * (mostVisitedBin() - MIDDLE_BIN);
+	}
 }

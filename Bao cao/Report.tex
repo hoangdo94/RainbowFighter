@@ -16,7 +16,8 @@
 %\newcommand{\mbs}{\textit{Mbps}}
 %\newcommand{\gbs}{\textit{Gbps}}
 %\newcommand{\mb}{\textit{MB/s}}
-
+\newcommand{\sep}{\rule{\textwidth}{0.007pt}\\}
+%\newcommand{\sep}{\vspace{0.5cm}}
 \lstset{numbers=left, numberstyle=\tiny, stepnumber=2, numbersep=5pt, tabsize=2, language=java, basicstyle=\small}
 \newcommand\blankpage{%
     \null
@@ -109,9 +110,9 @@ Nguyễn Kim Trung Hiếu\\
 
 \end{center}
 
-\newpage
-\thispagestyle{empty}
-\emph{ }
+%\newpage
+%\thispagestyle{empty}
+%\emph{ }
 \newpage
 \thispagestyle{empty}
 \tableofcontents
@@ -121,11 +122,11 @@ Nguyễn Kim Trung Hiếu\\
 \thispagestyle{empty}
 \listoffigures
 
-\newpage
-\thispagestyle{empty}
-\begin{center}
-This page intentionally left blank
-\end{center}
+%\newpage
+%\thispagestyle{empty}
+%\begin{center}
+%This page intentionally left blank
+%\end{center}
 \newpage
 \section{Robocodde}
 \subsection{Giới thiệu}
@@ -220,7 +221,7 @@ Mỗi khi robot bị trúng đạn, thông tin của viên đạn được truy 
 \includegraphics[scale=0.5]{images/segmentation.png}
 \caption{Phân hoạch vùng nguy hiểm}
 \end{figure}
-Theo đó ứng với mỗi EnemyWave, hoặc nói theo cách khác là ứng với mỗi viên đạn được bắn ra, chúng ta sẽ xác định được một góc bắn như hình vẽ. Góc này có độ lớn bằng 2 lần góc maxEscapeAngle\footnote{Là góc lớn nhất mà robot có thể di chuyển được trong một đơn vị thời gian - một tick. Việc giới hạn này là hợp lý vì mọi góc nằm ngoài khoảng này là không cần xem xét vì robot không thể nào di chuyển tới đó được} và được chia ra thành những phần bằng nhau được gọi là BIN. Trong chương trình sử dụng 47 BIN còn trong hình minh họa thì chia ra được 4 BIN. Một BIN được đánh dấu là nguy hiểm nếu như robot bị trúng đạn khi đang di chuyển trong BIN đó. Chẳng hạn như trong hình vẽ, tại thời điểm $t_0$ robot đang ở vị trí $P_0$ và nhận thấy đối thủ bắn ra viên đạn tại ví trí $P$. Cho đến thời điểm $t_1$ robot bị viên đạn đó đụng phải tại vị trí $P_1$ - thuộc BIN thứ 4. BIN này được tô đỏ trong hình vẽ và nghĩa là trong tương lai, nếu gặp trường hợp tương tự như vậy, robot sẽ hạn chế di chuyển vào BIN này. Tất cả các BIN này được tổ chức và lưu trong biến statArray[].
+Theo đó ứng với mỗi EnemyWave, hoặc nói theo cách khác là ứng với mỗi viên đạn được bắn ra, chúng ta sẽ xác định được một góc bắn như hình vẽ. Góc này có độ lớn bằng 2 lần góc maxEscapeAnlge\footnote{Là góc lớn nhất mà robot có thể di chuyển được trong một đơn vị thời gian - một tick. Việc giới hạn này là hợp lý vì mọi góc nằm ngoài khoảng này là không cần xem xét vì robot không thể nào di chuyển tới đó được} và được chia ra thành những phần bằng nhau được gọi là BIN. Trong chương trình sử dụng 47 BIN còn trong hình minh họa thì chia ra được 4 BIN. Một BIN được đánh dấu là nguy hiểm nếu như robot bị trúng đạn khi đang di chuyển trong BIN đó. Chẳng hạn như trong hình vẽ, tại thời điểm $t_0$ robot đang ở vị trí $P_0$ và nhận thấy đối thủ bắn ra viên đạn tại ví trí $P$. Cho đến thời điểm $t_1$ robot bị viên đạn đó đụng phải tại vị trí $P_1$ - thuộc BIN thứ 4. BIN này được tô đỏ trong hình vẽ và nghĩa là trong tương lai, nếu gặp trường hợp tương tự như vậy, robot sẽ hạn chế di chuyển vào BIN này. Tất cả các bị này được tổ chức và lưu trong biến statArray[].
 
 Theo cách đánh dấu như vậy, càng về sau, sự phân hoạch vùng nguy hiểm này sẽ càng chính xác, và robot sẽ học được chiến lược bắn đạn của đối phương để tìm đường đi an toàn cho mình.
 \subsection{Kiểm tra mức nguy hiểm}
@@ -263,8 +264,6 @@ Chương trình không quan tâm đến việc giữ khoảng cách tương đ�
 Như đã trình bày ở phần trước, mỗi lần phát hiện ra đối thủ mất một mức năng lượng $0 < p \leq 3.0$ thì robot sẽ ghi nhận một viện đạn được bắn ra. Cách dự đoán này tuy đa phần chính xác những có một số trường hợp ngoại lệ, đặc biệt là khi gần kết thúc trận đấu - cả hai đều bắn đi những viên đạn có năng lượng nhỏ. Nói là không chính xác bởi vì không phải lúc nào đối thủ mất năng lượng cũng đều do bắn đạn. Đó có thể là do nó bị trúng đạn của ta bắn. Trong trường hợp đó, data thu thập được sẽ bị sai do những "viên đạn ảo" này, ảnh hưởng đến khả năng dự đoán.\\
 {\bf Thay đổi chiến lược né đạn}\\
 Hiện tại ý tưởng né đạn vẫn là xác định xem viên đạn nào di chuyển đến gần robot nhất để né. Giải pháp này không hiệu quả bằng việc xem xét né viên đạn sẽ chạm robot trước thay vì viên gần nhất.
-
-
 \section{Kỹ thuật Guess Factor Targeting}
 \subsection{Giới thiệu}
 \begin{figure}[H]
@@ -281,7 +280,7 @@ Nếu như ở phần WaveSurfing phía trên, đối tượng EnemyWave đượ
 		\item targetLocation: vị trí của mục tiêu ở thời điểm viên đạn được bắn ra.
 		\item bulletPower: mức năng lượng của viên đạn
 		\item gunLocation: vị trí của súng (cụ thể là vị trí của robot) lúc bắn đạn.
-		\item bearing: ....
+		\item bearing: góc lệch giữa robot và mục tiêu
 		\item lateralDirection: hướng di chuyển của mục tiêu (theo chiều vuông góc với robot)
 		\item distanceTraveled: khoảng cách mà viên đạn đã di chuyển (cập nhật theo từng tick)
 		\item robot: robot
@@ -339,20 +338,426 @@ public double calcBulletPower(ScannedRobotEvent e) {
 	bulletPower = Math.min(bulletPower, (e.getEnergy() + .1) / 4);
 	if (bulletPower * 6 >= robot.getEnergy()) bulletPower = robot.getEnergy() / 6;
 	if (bulletPower >= robot.getEnergy() - .1) bulletPower = robot.getEnergy() - .1;
-	bulletPower = Math.max(Rules.MIN_BULLET_POWER, Math.min(Rules.MAX_BULLET_POWER, bulletPower));
+	bulletPower = Math.max(Rules.MIN_BULLET_POWER, 
+				Math.min(Rules.MAX_BULLET_POWER, bulletPower));
 	if (robot.getEnergy() < 10.0) bulletPower = 0.1;
 	return bulletPower;
 }
 \end{lstlisting}
 \begin{lstlisting}[caption = ngắm bắn, frame = single]
-	robot.setTurnGunRightRadians(Utils.normalRelativeAngle(enemyAbsoluteBearing - robot.getGunHeadingRadians() + wave.mostVisitedBearingOffset()));
+	robot.setTurnGunRightRadians(Utils.normalRelativeAngle(
+									enemyAbsoluteBearing -
+									robot.getGunHeadingRadians() +
+									wave.mostVisitedBearingOffset()
+								));
 	robot.setFire(wave.bulletPower);
 \end{lstlisting}
+\section{Javadoc}
+\subsection{Class feederz\_spring2014}
+\subsubsection{Thông tin các thuộc tính}
+\begin{tabular}{llp{9cm}}
+\textbf{colors}&Color&Chứa các màu sắc của robot (Gồm 7 màu đỏ, da cam, vàng, lục, lam, chàm, tím)\\
+\textbf{colorNum}&int&index màu sắc hiện tại của robot\\
+\textbf{waveSurfing}&WaveSurfing&Đối tượng quản lý việc di chuyển\\
+\textbf{gunController}&GFTargeting&Đối tượng quản lý việc điều khiển súng\\
+\end{tabular}
+\subsubsection{Thông tin các hàm}
+\sep
+initializeRobot
+\begin{description}
+	\item[Signature] public void initializeRobot()
+	\item[Description] Khởi tạo các giá trị ban đầu cho robot
+\end{description}
+\sep
+changeAllColors
+\begin{description}
+	\item[Signature] public void changeAllColors()
+	\item[Description] Thay đổi màu sắc của robot (được gọi mỗi khi bị trúng đạn)
+\end{description}
+\sep
+run\\
+\textbf{source}: http://robocode.sourceforge.net/docs/robocode/\\
+\sep
+controllRadar
+\begin{description}
+	\item[Signature] public void controllRadar(ScannedRobotEvent e)
+	\item[Description] phụ trách việc điểu khiển radar luôn hướng vào đối thủ
+	\item[Parameter(s)]
+	\begin{description}
+		\item[e] đối tượng thuộc lớp ScannedRobotEvent
+	\end{description}
+\end{description}
+\sep
+controllRobot
+\begin{description}
+	\item[Signature] public void controllRobot()
+	\item[Description] phục trách việc điều khiển súng
+\end{description}
+\sep
+onScannedRobot\\
+\textbf{source}: http://robocode.sourceforge.net/docs/robocode/\\
+\sep
+onHitByBullet\\
+\textbf{source}: http://robocode.sourceforge.net/docs/robocode/\\
+\sep
+onBulletHitBullet\\
+\textbf{source}: http://robocode.sourceforge.net/docs/robocode/\\
+\sep
+onBulletHit\\
+\textbf{source}: http://robocode.sourceforge.net/docs/robocode/\\
+\subsection{Class WaveSurfing}
+\subsubsection{Thông tin các thuộc tính}
+\begin{tabular}{llp{5cm}}
+\textbf{ourRobot}&AdvancedRobot&Đối tượng robot được truyền vào để điều khiển\\
+\textbf{ourRobotPosition}&Point2D&Vị trí hiện tại của robot\\
+\textbf{enemyPosition}&Point2D&Vị trí hiện tại của đối thủ\\
+\textbf{enemyWaves}&ArrayList<EnemyWave>&List các đối tượng EnemyWave chứa thông tin về các viên đạn của đối thủ bắn ra\\
+\textbf{directionArray}&ArrayList<Integer>&List chứa các hướng di chuyển của robot theo thời gian\\
+\textbf{BINS}&int&Số lượng BIN tối đa được chia ra\\
+\textbf{statArray}&double[]&Dãy chứa các giá trị của các BIN\\
+\textbf{absBearingsArray}&ArrayList<Double>&Chứa các góc ngắm tuyệt đối của đối thủ (radian)\\
+\textbf{BULLET\_FIRING\_TIME\_DELTA}&int&Gia số về thời gian bắn đạn\\
+\textbf{WALL\_STICK}&int&Độ đai của đường đi dự đoán, sử dụng trong kỹ thuật Wall Smoothing\\
+\textbf{ROBOT\_SIZE}&double&Kích thước giả định của robot (có thể khác với kích thước vật lý được đặc tả)\\
+\textbf{BATTLEFIELD\_WIDTH}&int&Kích thước chiều ngang mặc định của sân đấu\\
+\textbf{BATTLEFIELD\_HEIGHT}&int&Kích thước chiều cao mặc định của sân đấu\\
+\textbf{BOUNDARY\_SIZE}&int&Khoảng cách nguy định vùng nguy hiểm đụng tường\\
+\textbf{playingRectangle}&Rectangle2D&Hình chữ nhật nguy định vùng di chuyển an toàn\\
+\textbf{MAX\_PREDICTION\_TICK\_NUMBER}&int&Quy định thời gian tối đa cho việc dự đoán vị trí\\
+\textbf{hitTime}&double&Lưu giữ thời điểm gần nhất robot bị trúng đạn
+\end{tabular}
 
-\section{JAVA Doc}
+\subsubsection{Thông tin các hàm}
+\sep
+WaveSurfing
+	\begin{description}
+		\item[Signature] public WaveSurfing(AdvancedRobot robot)
+		\item[Description] Khởi tạo đối tượng WaveSurfing
+		\item[Parameters]
+		\begin{description}
+				\item[robot] - đối tượng robot cần gán điều khiển di chuyển
+			\end{description}
+		\end{description}
+\sep
+getPerfectAngleToGo
+	\begin{description}
+		\item[Signature] public double getPerfectAngleToGo()
+		\item[Description] Chọn góc đi phù hợp nhất, có xét đến cả sự đụng tường và né đạn
+		\item[Return(s)] Góc đi (radian)
+	\end{description}
+\sep	
+updateData
+	\begin{description}
+		\item[Signature] public void updateData(ScannedRobotEvent e)
+		\item[Description] Cập nhật thông tin cần thiết cho việc dự đoán đạn bắn như vị trí hiện tại của robot, hướng đi hiện tại, tạo một wave mới nếu phát hiện được kẻ thù vừa mới nổ súng,\ldots Hàm được gọi gián tiếp thông qua hàm onScannedEvent() ở lớp feederz\_spring2015
+		\item[Parameter(s)]
+		\begin{description}
+			\item[e] Đối tượng thuộc lớp ScannedRobotEvent chứa các thông tin gửi về từ radar
+		\end{description}
+	\end{description}
+\sep	
+onBulletHit
+	\begin{description}
+		\item[Signature] onBulletHit(BulletHitEvent e)
+		\item[Description] Ghi nhận thời điểm đạn của robot va chạm trúng đối thủ, phục vụ cho việc xác định chính xác thời điểm đối phương nổ súng. Hàm được gọi gián tiếp thông qua hàm cùng tên ở lớp feederz\_spring2015
+		\item[Parameter(s)]
+		\begin{description}
+			\item[e] Đối tượng thuộc lớp BulletHitEvent
+		\end{description}
+	\end{description}
+\sep	
+onHitByBullet
+	\begin{description}
+		\item[Signature] public void onHitByBullet(HitByBulletEvent e)
+		\item[Description] Lấy thông tin từ mỗi viên đạn bị trúng để cập nhật cơ sở dữ liệu (giá trị các BIN) trong statArray. Hàm được gọi gián tiếp thông qua hàm cùng tên ở lớp feederz\_spring2015
+		\item[Parameter(s)]
+		\begin{description}
+			\item[e] Đối tượng thuộc lớp HitByBulletEvent
+		\end{description}
+	\end{description}
+\sep	
+getClosestSurfableWave
+	\begin{description}
+		\item[Signature] public EnemyWave getClosestSurfableWave()
+		\item[Description] Tìm kiếm trong dãy các wave hiện tại wave có khoảng cách gần với robot nhất
+		\item[Return(s)] Đối tượng EnemyWave chứa thông tin về viên đạn gần nhất
+	\end{description}	
+\sep	
+checkDanger
+	\begin{description}
+		\item[Signature] public double checkDanger(EnemyWave surfWave, int direction)
+		\item[Description] Kiểm tra mức nguy hiểm của một wave đối với robot
+		\item[Parameter(s)]
+		\begin{description}
+			\item[surfWave] wave cần xem xét
+			\item[direction] hướng di chuyển hiện tại của robot
+		\end{description}
+		\item[Return(s)] Giá trị chứa trong BIN tương ứng biểu thị mức độ nguy hiểm
+	\end{description}	
+\sep
+wallSmoothing
+	\begin{description}
+		\item[Signature] public double wallSmoothing(Point2D.Double botLocation, double angle,int orientation)
+		\item[Description]Tính toán góc đi cần thiết để tránh đụng phải tường
+		\item[Parameter(s)]
+		\begin{description}
+			\item[botLocation] Ví trị hiện tại của robot
+			\item[angle] Góc cần điều chỉnh (thường là góc vuông góc với phương nối giữa robot và kẻ thủ)
+			\item[orientation] Hướng di chuyển hiện tại +1 hoặc -1
+		\end{description}
+		\item[Return(s)] Giá trị góc đi (radian)
+	\end{description}
+\sep
+predictPosition
+	\begin{description}
+		\item[Signature] public Point2D.Double predictPosition(EnemyWave surfWave, int direction)
+		\item[Description] Dự đoán vị trí tương lai của robot sau khi viên đạn được xét bay qua mất hoặc sau một khoảng thời gian định trước với hướng đi hiện tại
+		\item[Parameter(s)]
+		\begin{description}
+			\item[surfWave] EnemyWave chứa thông tin viện đạn đang được xét
+			\item[direction] Hướng đi chuyển hiện tại đang được xét
+		\end{description}
+		\item[Return(s)] Vị trí tương dự đoán
+	\end{description}
+\sep
+calculateIndex
+	\begin{description}
+		\item[Signature] public static int calculateIndex(EnemyWave ew, Point2D.Double hittingPosition)
+		\item[Description] Tính toán index của BIN cần được cập nhật giá trị từ vị trí bị trúng đạn
+		\item[Parameter(s)]
+		\begin{description}
+			\item[ew] EnemyWave chứa thông tin của viên đạn mà robot bị trúng
+			\item[hittingPosition] vị trí robot bị trúng đạn
+		\end{description}
+		\item[Return(s)] giá trị index của BIN
+	\end{description}
+\sep
+updateWaves
+\begin{description}
+	\item[Signature] public void updateWaves()
+	\item[Description] Cập nhật thông tin cho các wave đã được lưu trữ, xóa bỏ những wave không cần thiết
+\end{description}		
+\sep
+updateStatArray
+\begin{description}
+	\item[Signature] public void updateStatArray(EnemyWave ew, Point2D.Double targetLocation)
+	\item[Description] Cập nhật các giá trị của các BIN trong statArray
+	\item[Parameter(s)]
+	\begin{description}
+		\item[ew] EnemyWave chứa thông tin viên đạn robot vừa bị bắn trúng
+		\item[targetLocation] Vị trí hiện tại của robot
+	\end{description}
+\end{description}
+
+\subsection{Class GFTargeting}
+\subsubsection{Thông tin các thuộc tính}
+\begin{tabular}{llp{5cm}}
+\textbf{robot}&AdvancedRobot&Đối tượng robot được truyền vào để điều khiển\\
+\textbf{lateralDirection}&Double&Hướng di chuyển của mục tiêu (theo chiều vuông góc với robot)\\
+\textbf{lastEnemyVelocity}&Double&Tốc độ cuối cùng ghi nhận được trước thời điểm hiện tại của mục tiêu\\
+\end{tabular}
+
+\subsubsection{Thông tin các hàm}
+\sep
+GFTargeting
+	\begin{description}
+		\item[Signature] public GFTargeting(AdvancedRobot robot)
+		\item[Description] Khởi tạo đối tượng GFTargeting
+		\item[Parameters]
+		\begin{description}
+				\item[robot] - đối tượng robot cần gán điều khiển ngắm bắn
+			\end{description}
+		\end{description}
+\sep
+updateData
+	\begin{description}
+		\item[Signature]public void updateData(ScannedRobotEvent e)
+		\item[Description] Cập nhật các thông tin cần thiết đồng thời thực hiện việc điều khiển ngắm, bắn
+	\end{description}		
+\sep
+calcBulletPower
+	\begin{description}
+		\item[Signature]public double calcBulletPower(ScannedRobotEvent e)
+		\item[Description] Tính bulletPower thích hợp để bắn
+	\end{description}		
+\sep
+
+\subsection{Class BulletWave (Hỗ trợ cho class GFTargeting)}
+\subsubsection{Thông tin các thuộc tính}
+\begin{tabular}{llp{5cm}}
+\textbf{targetLocation}&Point2D&Vị trí của mục tiêu lúc bắn\\
+\textbf{bulletPower}&Double&Độ mạnh của đạn\\
+\textbf{gunLocation}&Point2D&Vị trí của súng (hay chính là vị trí của robot) lúc bắn\\
+\textbf{bearing}&Double&Góc lệch giữa robot và mục tiêu\\
+\textbf{lateralDirection}&Double&Như ở class GFTargeting\\
+\textbf{robot}&AdvancedRobot&Đối tượng robot được truyền vào để điều khiển\\
+\textbf{distanceTraveled}&Double&Khoảng cách mà viên đạn đã đi\\
+\textbf{buffer}&Int[]&buffer phụ trỏ tới vùng phân hoạch hiện tại\\
+\textbf{MAX_DISTANCE}&Double&Khoảng cách tối đa của vùng phân hoạch\\
+\textbf{DISTANCE_INDEXES}&Double&Số phân đoạn phân hoạch theo khoảng cách\\
+\textbf{VELOCITY_INDEXES}&Double&Số phân đoạn phân hoạch theo vận tốc\\
+\textbf{BINS}&Double&Tổng số BIN\\
+\textbf{MIDDLE_BIN}&Double&Index của BIN chính giữa\\
+\textbf{MAX_ESCAPE_ANGLE}&Double&Khoảng góc lệch tối đa mà mục tiêu có thể đi tới\\
+\textbf{BIN_WIDTH}&Double&Độ rộng mỗi BIN\\
+\textbf{statBuffers}&int[][][][]&Buffer chính chứa các thông tin phân hoạch\\
+\end{tabular}
+
+\subsubsection{Thông tin các hàm}
+\sep
+BulletWave
+	\begin{description}
+		\item[Signature] public BulletWave(AdvancedRobot _robot)
+		\item[Description] Khởi tạo đối tượng BulletWave
+		\item[Parameters]
+		\begin{description}
+				\item[_robot] - đối tượng robot cần gán điều khiển
+			\end{description}
+		\end{description}
+\sep
+setSegmentations
+	\begin{description}
+		\item[Signature]void setSegmentations(double distance, double velocity, double lastVelocity)
+		\item[Description]Xác định vùng phaa hoạch (theo khoảng cách, vận tốc và vận tốc cuối)
+		\begin{description}
+				\item[distance] - khoảng cách tới mục tiêu
+				\item[velocity] - Vận tốc hiện tại của mục tiêu
+				\item[lastVelocity] - Vận tốc cuối cùng trước thời điểm hiện tại của mục tiêu
+			\end{description}
+	\end{description}		
+\sep
+test
+	\begin{description}
+		\item[Signature]public boolean test()
+		\item[Description] Cập nhật khoảng cách, kiểm tra xem viên đạn đã tới mục tiêu hay chưa
+	\end{description}		
+\sep
+updateDistance
+	\begin{description}
+		\item[Signature]public boolean updateDistance()
+		\item[Description] Cập nhật khoảng cách đã di chuyển của viên đạn
+	\end{description}		
+\sep
+hasArrived
+	\begin{description}
+		\item[Signature]public boolean hasArrived()
+		\item[Description] Kiểm tra xem viên đạn đã tới mục tiêu hay chưa
+	\end{description}		
+\sep
+currentBin
+	\begin{description}
+		\item[Signature]private int currentBin()
+		\item[Description] Xác định BIN hiện tại
+	\end{description}		
+\sep
+mostVisitedBin
+	\begin{description}
+		\item[Signature]private int mostVisitedBin()
+		\item[Description] Xác định BIN bắn trúng nhiều nhất
+	\end{description}		
+\sep
+mostVisitedBearingOffset
+	\begin{description}
+		\item[Signature]mostVisitedBearingOffset()
+		\item[Description] Tính góc lệch dựa vào mostVisitedBin
+	\end{description}		
+\sep
+
+\subsection{Class Helpers}
+\subsubsection{Thông tin các hàm}
+getAbsoluteBearingAngle
+\begin{description}
+	\item[Signature]public static double getAbsoluteBearingAngle(Point2D.Double from,
+			Point2D.Double to)
+	\item[Description] Tính góc ngắm tyệt đối từ điểm này đến điểm khác
+	\item[Parameter(s)]
+	\begin{description}
+		\item[from] điểm đầu
+		\item[to] điểm cuối
+	\end{description}
+	\item[Return(s)] góc ngắm (radian)
+\end{description}
+\sep
+getSuitableValueInRange
+\begin{description}
+	\item[Signature]public static double getSuitableValueInRange(double min, double value,
+			double max)
+	\item[Description] Tìm giá trị phù hợp nằm trong khoảng cho trước, nếu giá trị tuyền vào thuộc khoảng này, trả về giá trị đó, ngược lại trả về một trong 2 đầu mút của khoảng.
+	\item[Parameter(s)]
+	\begin{description}
+		\item[min] cận dưới của khoảng
+		\item[value] giá trị cần xem xét
+		\item[max] cận trên của khoảng
+	\end{description}
+	\item[Return(s)] giá trị phù hợp
+\end{description}
+\sep
+maxEscapeAngle
+\begin{description}
+	\item[Signature]public static double maxEscapeAngle(double velocity)
+	\item[Description] Tìm ra góc tối đa mà robot có thể di chuyển được trong một đơn vị thời gian với tốc độ cho trước
+	\item[Parameter(s)]
+	\begin{description}
+		\item[velocity] tốc độ hiện tại của robot
+	\end{description}
+	\item[Return(s)] góc (radian)
+\end{description}
+\sep
+getPositionFromAngleAndDistance
+\begin{description}
+	\item[Signature]public static Point2D.Double getPositionFromAngleAndDistance(Point2D.Double from,
+			double angle, double length)
+	\item[Description] Tính toán vị trí từ điểm hiện tại khi biết khoảng góc và khoảng cách của điểm đó so với điểm hiện tại.
+	\item[Parameter(s)]
+	\begin{description}
+		\item[from] điểm hiện tại
+		\item[angle] góc của điểm cần tính so với điểm hiện tại
+		\item[length] khoảng cách từ điểm cần tính so với điểm hiện tại
+	\end{description}
+	\item[Return(s)] điểm cần tính
+\end{description}
+\sep
+goToAngle
+\begin{description}
+	\item[Signature] public static void goToAngle(AdvancedRobot robot, double goAngle)
+	\item[Description] của m -_-
+	\item[Parameter(s)]
+	\begin{description}
+		\item[robot]
+		\item[goAngle]
+	\end{description}
+\end{description}
+\sep
+project
+\begin{description}
+	\item[Signature] static Point2D project(Point2D sourceLocation, double angle, double length)
+	\item[Description] Xác định vị trí của mục tiêu trong hệ tọa độ Oxy
+	\item[Parameter(s)]
+	\begin{description}
+		\item[sourceLocation] vị trí của robot
+		\item[angle] góc lệch giữa robot và mục tiêu
+		\item[length] khoảng cách giữa robot và mục tiêu
+	\end{description}
+	\item[Return(s)] vị trí của mục tiêu
+\end{description}
+\sep
+sign
+\begin{description}
+	\item[Signature] static int sign(double v)
+	\item[Description] Xác định dấu (âm hay dương) của 1 số
+	\item[Parameter(s)]
+	\begin{description}
+		\item[v] Số cần kiểm tra
+	\end{description}
+	\item[Return(s)] Dấu của số đó
+\end{description}
+\sep
 
 \section{Tham khảo}
-http://www.ibm.com/developerworks/library/j-robotips/index.html
-Robowiki.net
-
+\begin{description}
+	\item[][1] http://www.ibm.com/developerworks/library/j-robotips/index.html
+	\item[][2] http://robowiki.net/wiki/Wave\_Surfing\_Tutorial
+	\item[][3] https://ceasarjames.wordpress.com/2011/03/20/wave-surfing-explained
+	\item[][4] http://robowiki.net/wiki/GuessFactor\_Targeting\_Tutorial
+\end{description}
 \end{document}
