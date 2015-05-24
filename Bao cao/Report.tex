@@ -128,9 +128,16 @@ Nguyễn Kim Trung Hiếu\\
 %This page intentionally left blank
 %\end{center}
 \newpage
-\section{Robocodde}
+\section{Robocode}
 \subsection{Giới thiệu}
-\subsection{Luật chơi}
+Robocode là một chương trình trò chơi mà mục tiêu là tạo ra một robot, các robot mô phỏng xe tăng trong một đấu trường chiến đấu để tìm và cạnh tranh với các robot khác, nó được trang bị với hệ thống radar. Một robot có thể di chuyển tới, lui ở các tốc độ khác nhau và di chuyển qua trái, qua phải. Các radar và tháp pháo có thể được chuyển sang trái hoặc sang phải độc lập với nhau so với phần còn lại của xe tăng. Khẩu súng có thể bắn. Khi cài đặt một trận đấu, ta có thể xem được trận đấu từ bên ngoài màn hình chơi hoặc dùng máy tính mô phỏng trận đấu mà không cần hiển thị đồ họa. Người chơi là các lập trình của robot, những người này sẽ không ảnh hưởng trực tiếp vào trò chơi mà thay vào đó người chơi phải lập trình làm sao cho robot thông minh có thể xử lý và phản ứng tất cả các sự kiện xảy ra trong lĩnh vực chiến đấu. Khi một robot đối thủ lọt vào rađa, một sự kiện sẽ được sinh ra và một hành động phù hợp sẽ được robot thực hiện. Robot có thể lấy được các thông tin về một đối thủ đang trong vùng quét của ra đa như tốc độ, heading, năng lượng còn lại, tên và gốc giữa heading của nó với robot đối thủ, khoảng cách giữa nó với đối thủ. Dựa vào các thông tin này mà rô bốt sẽ đưa ra các hành động phù hợp. Ví dụ, khi phát hiện một đối thủ trong vòng rađa, robot có thể dùng súng để bắn. Các robot có thể ra trận cùng với đội robot của nó. Bằng việc giao tiếp với các robot khác, chúng có thể trao đổi các thông tin như nơi có đối thủ được phát hiện và dựa trên chiến lược được chọn, một robot có thể chạy trốn từ đám các đối thủ hoặc thông báo tin cho các đồng minh của nó về thông tin các đối thủ đó. Các robot được viết bằng ngôn ngữ lập trình Java và các trò chơi Robocode có thể chạy trên bất kỳ hệ điều hành được hỗ trợ bởi các nền tảng Java, bao gồm tất cả các hệ thống phổ biến như Windows, Mac OS X, Linux etc.
+\subsection{Sơ lược về robot của nhóm (Feederz)}
+Về cơ bản, một robot chủ yếu có 2 hành động chính: di chuyển sao cho ít trúng đạn nhất, và ngắm bắn sao cho chính xác nhất. Có rất nhiều kỹ thuật trong việc điều khiển này, ví dụ:
+- Di chuyển: đứng yên, di chuyển theo đường thẳng, theo vòng tròn, theo pattern, di chuyển ngẫu nhiên, wave surfing...
+- Ngắm bắn: bắn trực tiếp, dự đoán theo đường thẳng, theo hình tròn, pattern matching, guess factor, dynamic clustering...
+Robot của nhóm sử dụng 2 kỹ thuật khá thông dụng trong việc điều khiển di chuyển và ngắm bắn, đó là Wave Surfing (di chuyển) và Guess Factor Targeting (ngắm bắn).
+Do vấn đề thời gian nên nhóm chỉ hiện thực một cách khá đơn giản 2 kỹ thuật này. Sẽ còn rất nhiều cách để tăng tính hiệu quả của robot.
+
 \section{Tổ chức Class}
 Chương trình được tổ chức rõ ràng với 04 class chính. Nhiệm vụ mỗi class được phân chia cụ thể và hợp lý.
 \begin{figure}[H]
@@ -340,7 +347,6 @@ public double calcBulletPower(ScannedRobotEvent e) {
 	if (bulletPower >= robot.getEnergy() - .1) bulletPower = robot.getEnergy() - .1;
 	bulletPower = Math.max(Rules.MIN_BULLET_POWER, 
 				Math.min(Rules.MAX_BULLET_POWER, bulletPower));
-	if (robot.getEnergy() < 10.0) bulletPower = 0.1;
 	return bulletPower;
 }
 \end{lstlisting}
@@ -395,16 +401,16 @@ controllRobot
 \end{description}
 \sep
 onScannedRobot\\
-\textbf{source}: http://robocode.sourceforge.net/docs/robocode/\\
+\textbf{source}: http://robocode.sourceforge.net/docs/robocode/robocode/Robot.html#onScannedRobot\\
 \sep
 onHitByBullet\\
-\textbf{source}: http://robocode.sourceforge.net/docs/robocode/\\
+\textbf{source}: http://robocode.sourceforge.net/docs/robocode/robocode/Robot.html#onHitByBullet\\
 \sep
 onBulletHitBullet\\
-\textbf{source}: http://robocode.sourceforge.net/docs/robocode/\\
+\textbf{source}: http://robocode.sourceforge.net/docs/robocode/robocode/Robot.html#onBulletHitBullet\\
 \sep
 onBulletHit\\
-\textbf{source}: http://robocode.sourceforge.net/docs/robocode/\\
+\textbf{source}: http://robocode.sourceforge.net/docs/robocode/robocode/Robot.html#onBulletHit\\
 \subsection{Class WaveSurfing}
 \subsubsection{Thông tin các thuộc tính}
 \begin{tabular}{llp{5cm}}
