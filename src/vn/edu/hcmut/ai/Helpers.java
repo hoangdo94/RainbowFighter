@@ -45,14 +45,14 @@ final class Helpers {
 			robot.setAhead(100);
 		}
 	}
-//	static Point2D project(Point2D sourceLocation, double angle, double length) {
-//		return new Point2D.Double(sourceLocation.getX() + Math.sin(angle) * length,
-//				sourceLocation.getY() + Math.cos(angle) * length);
-//	}
+	static Point2D project(Point2D sourceLocation, double angle, double length) {
+		return new Point2D.Double(sourceLocation.getX() + Math.sin(angle) * length,
+				sourceLocation.getY() + Math.cos(angle) * length);
+	}
 	
-//	static double absoluteBearing(Point2D source, Point2D target) {
-//		return Math.atan2(target.getX() - source.getX(), target.getY() - source.getY());
-//	}
+	static double absoluteBearing(Point2D source, Point2D target) {
+		return Math.atan2(target.getX() - source.getX(), target.getY() - source.getY());
+	}
 
 	static int sign(double v) {
 		return v < 0 ? -1 : 1;
